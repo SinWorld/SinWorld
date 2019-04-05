@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd 
+        http://www.springframework.org/schema/context 
+         http://www.springframework.org/schema/context/spring-context.xsd">
+         
+     <!--配置整合mybatis过程 1.配置数据库相关参数-->
+     <context:property-placeholder location="classpath:jdbc.properties"/>
+    
+     <!--2.数据库连接池-->
+     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+         <!--配置连接池属性-->
+         <property name="driverClass" value="${jdbc.driver}" />
+         <!-- 基本属性 url、user、password -->
+         <property name="jdbcUrl" value="${jdbc.url}" />
+         <property name="user" value="${jdbc.username}" />
+         <property name="password" value="${jdbc.password}" />
+         
+         <!--c3p0私有属性-->
+         <property name="maxPoolSize" value="30"/>
+        <property name="minPoolSize" value="10"/>
+         <!--关闭连接后不自动commit-->
+         <property name="autoCommitOnClose" value="false"/>
+         
+         <!--获取连接超时时间-->
+         <property name="checkoutTimeout" value="1000"/>
+         <!--当获取连接失败重试次数-->
+         <property name="acquireRetryAttempts" value="2"/>
+     </bean>
+     
+     <!--约定大于配置-->
+     <!--3.配置SqlSessionFactory对象-->
+     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+     
+         <!--往下才是mybatis和spring真正整合的配置-->
+         <!--注入数据库连接池-->
+         <property name="dataSource" ref="dataSource"/>
+         <!--
+             配置mybatis全局配置文件:mybatis-config.xml
+             指定Mybatis的配置文件位置。如果指定了该属性，
+             那么会以该配置文件的内容作为配置信息构建对应的SqlSessionFactoryBuilder，
+             但是后续属性指定的内容会覆盖该配置文件里面指定的对应内容
+         -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+         <!--
+             扫描entity包,使用别名,多个用;隔开
+             一般对应实体类所在的包，这个时候会自动取对应包中不包括包名的简单类名作为包括包名的别名。
+             多个package之间可以用逗号或者分号等来进行分隔。(value的值一定要是包的全名)
+         -->
+         <property name="typeAliasesPackage" value="com.hmp.entity"/>
+         <!--
+             扫描sql配置文件:mapper需要的xml文件
+             Mapper文件存放的位置，当Mapper文件跟对应的Mapper接口处于同一位置的时候可以不用指定该属性的值
+        -->
+         <property name="mapperLocations" value="classpath:com/hmp/mapper/*Mapper.xml"/>
+         <!-- 
+             数组类型，用来指定别名的。
+             指定了这个属性后，Mybatis会把这个类型的短名称作为这个类型的别名，
+             前提是该类上没有标注@Alias注解，否则将使用该注解对应的值作为此种类型的别名。
+             (value的值一定要是类的完全限定名)
+         -->
+        <!-- <property name="typeAliases">
+             <array>
+                 <value>com.tiantian.mybatis.model.Blog</value>
+                 <value>com.tiantian.mybatis.model.Comment</value>
+            </array>
+        </property> -->
+    </bean>
+     
+     <!--4:配置扫描Dao接口包,动态实现DAO接口,注入到spring容器-->
+     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--注入SqlSessionFactory-->
+         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!-- 给出需要扫描的Dao接口-->
+         <property name="basePackage" value="com.hmp.dao"/>
+     </bean>
+ 
+ </beans>
