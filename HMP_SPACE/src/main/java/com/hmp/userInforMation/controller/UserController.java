@@ -1,17 +1,19 @@
-package com.hmp.controller;
+package com.hmp.userInforMation.controller;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hmp.entity.User;
-import com.hmp.service.inter.UserService;
+import com.hmp.userInforMation.entity.UserInforMation;
+import com.hmp.userInforMation.service.inter.UserService;
 
 @Controller
 @RequestMapping("user/")
 public class UserController {
-	@Autowired
+	@Resource
 	private UserService userService;
 
 	@RequestMapping("/initUser")
@@ -21,7 +23,7 @@ public class UserController {
 
 	@RequestMapping("/addUser")
 	public String addUser(@RequestParam Long id, String userName, String passworld) {
-		User user = new User();
+		UserInforMation user = new UserInforMation();
 		user.setId(id);
 		user.setUserName(userName);
 		user.setPassworld(passworld);

@@ -38,44 +38,27 @@
          <!--往下才是mybatis和spring真正整合的配置-->
          <!--注入数据库连接池-->
          <property name="dataSource" ref="dataSource"/>
-         <!--
-             配置mybatis全局配置文件:mybatis-config.xml
-             指定Mybatis的配置文件位置。如果指定了该属性，
-             那么会以该配置文件的内容作为配置信息构建对应的SqlSessionFactoryBuilder，
-             但是后续属性指定的内容会覆盖该配置文件里面指定的对应内容
-         -->
-        <property name="configLocation" value="classpath:mybatis-config.xml"/>
-         <!--
-             扫描entity包,使用别名,多个用;隔开
-             一般对应实体类所在的包，这个时候会自动取对应包中不包括包名的简单类名作为包括包名的别名。
-             多个package之间可以用逗号或者分号等来进行分隔。(value的值一定要是包的全名)
-         -->
-         <property name="typeAliasesPackage" value="com.hmp.entity"/>
-         <!--
-             扫描sql配置文件:mapper需要的xml文件
-             Mapper文件存放的位置，当Mapper文件跟对应的Mapper接口处于同一位置的时候可以不用指定该属性的值
-        -->
-         <property name="mapperLocations" value="classpath:com/hmp/mapper/*Mapper.xml"/>
-         <!-- 
-             数组类型，用来指定别名的。
-             指定了这个属性后，Mybatis会把这个类型的短名称作为这个类型的别名，
-             前提是该类上没有标注@Alias注解，否则将使用该注解对应的值作为此种类型的别名。
-             (value的值一定要是类的完全限定名)
-         -->
-        <!-- <property name="typeAliases">
-             <array>
-                 <value>com.tiantian.mybatis.model.Blog</value>
-                 <value>com.tiantian.mybatis.model.Comment</value>
-            </array>
-        </property> -->
-    </bean>
-     
+         <property name="configLocation" value="classpath:mybatis-config.xml"/>
+         <property name="typeAliasesPackage">
+         	<array>
+         		<value>com.hmp.userInforMation.entity</value>
+         	</array>
+         </property>
+     	 <property name="mapperLocations">
+     	 	<array>
+     	 		<value>classpath:com/hmp/userInforMation/mapper/*Mapper.xml</value>
+     	 	</array>
+     	 </property>
+     </bean>
      <!--4:配置扫描Dao接口包,动态实现DAO接口,注入到spring容器-->
      <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <!--注入SqlSessionFactory-->
-         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <!-- 给出需要扫描的Dao接口-->
-         <property name="basePackage" value="com.hmp.dao"/>
+         <property name="basePackage">
+         	<array>
+         		<value>com.hmp.userInforMation.dao</value>
+         	</array>
+         </property>
+         <!--注入SqlSessionFactory-->
+         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
      </bean>
- 
  </beans>

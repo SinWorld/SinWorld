@@ -1,12 +1,12 @@
-package com.hmp.entity;
+package com.hmp.userInforMation.entity;
 
 /**
- * ÓÃ»§ÊµÌåÀà£¬ÓÃÓÚ²âÊÔ¿ò¼Ü
+ * ï¿½Ã»ï¿½Êµï¿½ï¿½ï¿½à£¬ï¿½ï¿½ï¿½Ú²ï¿½ï¿½Ô¿ï¿½ï¿½
  * 
  * @author NingCG
  *
  */
-public class User {
+public class UserInforMation {
 	private Long id;
 	private String userName;
 	private String passworld;
