@@ -18,7 +18,7 @@ public class UserController {
 
 	@RequestMapping("/initUser")
 	public String initUser() {
-		return "userView";
+		return "user/index";
 	}
 
 	@RequestMapping("/addUser")
@@ -29,5 +29,15 @@ public class UserController {
 		user.setPassworld(passworld);
 		userService.addUser(user);
 		return "userView";
+	}
+	
+	@RequestMapping("/register")
+	public String initUi() {
+		return "user/register";
+	}
+	
+	@RequestMapping("/login")
+	public String login() {
+		return "user/login";
 	}
 }
