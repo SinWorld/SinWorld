@@ -6,8 +6,66 @@
 	<!-- 定义缓存 一般是一级缓存，如果用同一个sqlsession 那么相同查询直接会从缓存中查找 <cache size="1024" flushInterval="60000" 
 		eviction="LRU" readOnly="false"></cache> -->
 	<insert id="addUser" parameterType="UserInforMation">
-		insert into userInforMation (id,userName,passworld)
-		values(#{id},#{userName},#{passworld})
+		insert into hmp_user
+		(USER_ID,USER_NAME,USER_PASSWORD,USER_STATUS,USER_SEX,USER_AGE,USER_PHONE,USER_EMAIL,USER_PROVINCE,USER_CITY,USER_DETAIL_ADDRESS,USER_IDCARD,USER_BRITHDAY)
+		values(seq_user_id.nextval,#{user_name},#{user_password},#{user_status},#{user_sex},#{user_age},#{user_phone},#{user_email},#{user_province},#{user_city},#{user_detail_address},#{user_idCard},#{user_brithday})
 	</insert>
 
+	<!--用户登陆-->
+	<select id="login" parameterType="String" resultType="UserInforMation">
+		select * from hmp_user h
+		<where>
+			h.user_name=#{userName}
+			and h.user_password=#{password}
+		</where>
+	</select>
+	
+	<!--用户信息展现  -->
+	<select id="userShow" parameterType="Integer" resultType="UserInforMation">
+		select * from hmp_user h
+		<where>
+			h.user_id=#{user_id}
+		</where>
+	</select>
+	
+	<!--用户信息展现  -->
+	<select id="queryUserById" parameterType="Integer" resultType="UserInforMation">
+		select * from hmp_user h
+		<where>
+			h.user_id=#{user_id}
+		</where>
+	</select>
+	
+	<!--用户省展现  -->
+	<select id="queryProvince" parameterType="Integer" resultType="Province">
+		select * from sys_dm_sheng s
+		<where>
+			s.shengdm=#{shengdm}
+		</where>
+	</select>
+	
+	<!--用户市展现  -->
+	<select id="queryCity" parameterType="Integer" resultType="City">
+		select * from sys_dm_shi s
+		<where>
+			s.shidm=#{shidm}
+		</where>
+	</select>
+	
+	<!--修改用户信息  -->
+	<update id="editUser" parameterType="UserInforMation">
+		update hmp_user 
+		<set>
+			<if test="user_sex!=null">user_sex=#{user_sex},</if>
+			<if test="user_age!=null">user_age=#{user_age},</if>
+			<if test="user_phone!=null">user_phone=#{user_phone},</if>
+			<if test="user_email!=null">user_email=#{user_email},</if>
+			<if test="user_brithday!=null">user_brithday=#{user_brithday},</if>
+			<if test="user_province!=null">user_province=#{user_province},</if>
+			<if test="user_city!=null">user_city=#{user_city},</if>
+			<if test="user_detail_address!=null">user_detail_address=#{user_detail_address},</if>
+			<if test="user_idCard!=null">user_idCard=#{user_idCard}</if>
+		</set>
+		<where>user_id=#{user_id}</where>
+	</update>
 </mapper>

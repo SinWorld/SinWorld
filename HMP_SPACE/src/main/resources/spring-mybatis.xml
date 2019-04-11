@@ -61,4 +61,5 @@
          <!--注入SqlSessionFactory-->
          <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
      </bean>
+     
  </beans>

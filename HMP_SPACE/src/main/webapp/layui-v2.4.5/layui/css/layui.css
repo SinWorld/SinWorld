@@ -5038,3 +5038,6 @@ opacity
 	-webkit-animation-name: layui-fadeout;
 	animation-name: layui-fadeout
 }
+.banner{
+	width: 100%!important;
+}

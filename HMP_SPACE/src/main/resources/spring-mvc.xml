@@ -50,6 +50,8 @@
          <!-- 内存中的最大值 -->  
          <property name="maxInMemorySize" value="40960" />    
     </bean>   
-    
-   
+    <mvc:annotation-driven enable-matrix-variables="true"></mvc:annotation-driven>  
+    <context:component-scan base-package="com.hmp"></context:component-scan>  
+    <mvc:default-servlet-handler/>
+     
  </beans> 

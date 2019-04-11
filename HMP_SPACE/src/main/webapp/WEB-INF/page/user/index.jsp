@@ -5,13 +5,15 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>layout 后台大布局 - Layui</title>
-  <link rel="stylesheet" href="../layui/css/layui.css">
+  <title>零度空间</title>
+  <link rel="stylesheet" href="../layui-v2.4.5/layui/css/layui.css">
+  <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+  <%@page isELIgnored="false" %>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header">
-    <div class="layui-logo">layui 后台布局</div>
+    <div class="layui-logo"  style="font-size: 30px;">零度空间</div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
       <li class="layui-nav-item"><a href="">1111</a></li>
@@ -29,11 +31,12 @@
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item">
         <a href="javascript:;">
-          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-          贤心
+          <img src="http://t.cn/RCzsdCq" class="layui-nav-img" id="userName">
+      			${userName}
         </a>
+        <input type="hidden" value="${userId}" id="userId">
         <dl class="layui-nav-child">
-          <dd><a href="">基本资料</a></dd>
+          <dd><a onclick="userShow()">基本资料</a></dd>
           <dd><a href="">安全设置</a></dd>
         </dl>
       </li>
@@ -45,6 +48,7 @@
     <div class="layui-side-scroll">
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
       <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+      <li class="layui-nav-item"><a href="">首页</a></li>
         <li class="layui-nav-item layui-nav-itemed">
           <a class="" href="javascript:;">所有商品</a>
           <dl class="layui-nav-child">
@@ -70,7 +74,9 @@
   
   <div class="layui-body">
     <!-- 内容主体区域 -->
-    <div style="padding: 15px;">内容主体区域</div>
+    <div style="padding: 15px;">
+    	<iframe src='<c:url value="/user/banner"/>' style="width: 100%" id="banner" frameborder="0" scrolling="no" onload="this.height=100"></iframe>
+    </div>
   </div>
   
   <div class="layui-footer">
@@ -78,13 +84,46 @@
     © layui.com - 底部固定区域
   </div>
 </div>
-<script src="../layui/layui.js"></script>
+<script src="../layui-v2.4.5/layui/layui.js"></script>
+<script type="text/javascript" src="../jquery/jquery-3.3.1.js"></script>
 <script>
 //JavaScript代码区域
 layui.use('element', function(){
   var element = layui.element;
-  
+  var $ = layui.$;
 }); 
+
+function reinitIframe(){
+	var iframe = document.getElementById("banner");
+	try{
+	var bHeight = iframe.contentWindow.document.body.scrollHeight;
+	var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+	var height = Math.max(bHeight, dHeight);
+	iframe.height = height;
+	console.log(height);
+	}catch (ex){}
+	}
+	window.setInterval("reinitIframe()", 200);
+	
+function userShow(){
+		var userId=$('#userId').val();
+		$.ajax({
+	        url:"<c:url value='/user/userShow'/>",
+	        type:"post",
+	        data:{"userId":userId},
+	        dataType:'json',
+	        async:false,
+	        error : function() {
+				alert("出错");
+			},
+	        success:function (data) {
+	        	if(data.length>0){
+	        		var id=data[0].user_id;
+	        		window.open ("<c:url value='/user/userInforShow'/>?rowId="+id, "newwindow", "height=629, width=808, toolbar =no, menubar=no, scrollbars=no, resizable=no, location=no, status=no,top=100px,left=350px");
+	        	}
+	        }
+	    });
+	}
 </script>
 </body>
 </html>
