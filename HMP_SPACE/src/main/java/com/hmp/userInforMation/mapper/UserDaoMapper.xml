@@ -68,4 +68,13 @@
 		</set>
 		<where>user_id=#{user_id}</where>
 	</update>
+	
+	<!--安全中心修改用户密码  -->
+	<update id="updatePassword" parameterType="UserInforMation">
+		update hmp_user 
+		<set>
+			<if test="user_password!=null">user_password=#{user_password}</if>
+		</set>
+		<where>user_id=#{user_id}</where>
+	</update>
 </mapper>

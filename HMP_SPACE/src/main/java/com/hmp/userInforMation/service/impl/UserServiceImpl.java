@@ -44,6 +44,10 @@ public class UserServiceImpl implements UserService {
 	public void editUser(UserInforMation user) {
 		userDao.editUser(user);
 	}
+
+	public void updatePassword(UserInforMation user) {
+		userDao.updatePassword(user);
+	}
 	
 
 }

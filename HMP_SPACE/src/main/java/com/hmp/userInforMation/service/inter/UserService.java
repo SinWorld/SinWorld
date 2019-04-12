@@ -26,4 +26,7 @@ public interface UserService {
 
 	// 修改用户信息
 	public void editUser(UserInforMation user);
+	
+	//安全中心用户修改密码
+	public void updatePassword(UserInforMation user);
 }

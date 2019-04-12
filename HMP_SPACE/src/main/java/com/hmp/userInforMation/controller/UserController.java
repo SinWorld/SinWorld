@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,7 +76,7 @@ public class UserController {
 		user.setUser_name(user.getUser_name().trim());
 		user.setUser_detail_address(user.getUser_detail_address().trim());
 		userService.addUser(user);
-		mv.setViewName("redirect:initLogin");
+		mv.setViewName("redirect:login");
 		return mv;
 	}
 
@@ -125,4 +126,58 @@ public class UserController {
 		model.addAttribute("flag", flag);
 		return "user/editUser";
 	}
+	
+	//跳转至安全中心
+	@RequestMapping(value = "/securitySet")
+	public String securitySetting() {
+		return "user/securitySetting";
+	}
+	
+	//安全中心
+	@RequestMapping(value = "/securitySetting", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String securitySetting(@RequestParam String userId) {
+		Integer user_id=Integer.parseInt(userId);
+		JSONArray jsonArray = userService.userShow(user_id);
+		return jsonArray.toString();
+	}
+	
+	//原密码验证
+	@RequestMapping(value = "/checkOldPassword", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String securitySetting(@RequestParam String oldPassword ,String userId) {
+		Integer id = Integer.parseInt(userId);
+		UserInforMation user = userService.queryUserById(id);
+		JSONArray jsonArray=new JSONArray();
+		List<Integer> list=new ArrayList<Integer>();
+		if(user!=null&&oldPassword!=null) {
+			if(oldPassword.equals(user.getUser_password())) {
+				list.add(0);
+				jsonArray.add(list);
+			}else {
+				list.add(1);
+				jsonArray.add(list);
+			}
+		}
+		return jsonArray.toString();
+	}
+	//密码修改
+	@RequestMapping(value = "/updatePassword")
+	public String updateSecurity(@RequestParam String newPassword,UserInforMation user,Model model) {
+		user.setUser_password(newPassword);
+		userService.updatePassword(user);
+		boolean flag=true;
+		model.addAttribute("flag", flag);
+		return "user/securitySetting";
+	}
+	//退出系统
+	@RequestMapping(value = "/exit")
+	public ModelAndView exit(HttpServletRequest request,ModelAndView mv) {
+		HttpSession session =request.getSession();
+		//清除session
+		session.invalidate();
+		mv.setViewName("redirect:login");
+		return mv;
+	}
+	
 }

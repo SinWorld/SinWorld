@@ -37,10 +37,10 @@
         <input type="hidden" value="${userId}" id="userId">
         <dl class="layui-nav-child">
           <dd><a onclick="userShow()">基本资料</a></dd>
-          <dd><a href="">安全设置</a></dd>
+          <dd><a onclick="securitySetting()">安全设置</a></dd>
         </dl>
       </li>
-      <li class="layui-nav-item"><a href="">退了</a></li>
+      <li class="layui-nav-item"><a href='<c:url value="/user/exit"/>'>退出</a></li>
     </ul>
   </div>
   
@@ -119,7 +119,27 @@ function userShow(){
 	        success:function (data) {
 	        	if(data.length>0){
 	        		var id=data[0].user_id;
-	        		window.open ("<c:url value='/user/userInforShow'/>?rowId="+id, "newwindow", "height=629, width=808, toolbar =no, menubar=no, scrollbars=no, resizable=no, location=no, status=no,top=100px,left=350px");
+	        		window.open ("<c:url value='/user/userInforShow'/>?rowId="+id, "newwindow", "height=629, width=808, toolbar =no, menubar=no, scrollbars=no, resizable=no, location=no, status=no,top=80px,left=350px");
+	        	}
+	        }
+	    });
+	}
+	
+	function securitySetting(){
+		var userId=$('#userId').val();
+		$.ajax({
+	        url:"<c:url value='/user/securitySetting'/>",
+	        type:"post",
+	        data:{"userId":userId},
+	        dataType:'json',
+	        async:false,
+	        error : function() {
+				alert("出错");
+			},
+	        success:function (data) {
+	        	if(data.length>0){
+	        		var id=data[0].user_id;
+	        		window.open ("<c:url value='/user/securitySet'/>?rowId="+id, "newwindow", "height=429, width=808, toolbar =no, menubar=no, scrollbars=no, resizable=no, location=no, status=no,top=100px,left=350px");
 	        	}
 	        }
 	    });
