@@ -48,6 +48,14 @@ public class UserServiceImpl implements UserService {
 	public void updatePassword(UserInforMation user) {
 		userDao.updatePassword(user);
 	}
+	//找回密码根据用户名找到对应的对象
+	public UserInforMation queryUserByName(String userName) {
+		return userDao.queryUserByName(userName);
+	}
+	//修改该对象的验证码值
+	public void editUserCode(UserInforMation user) {
+		userDao.editUserCode(user);
+	}
 	
 
 }

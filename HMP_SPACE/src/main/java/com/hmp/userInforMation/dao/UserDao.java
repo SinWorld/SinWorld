@@ -31,4 +31,10 @@ public interface UserDao {
 	
 	//安全中心用户修改密码
 	public void updatePassword(UserInforMation user);
+	
+	//找回密码根据用户名返回对象
+	public UserInforMation queryUserByName(@Param("userName") String  userName);
+	
+	//修改该对象的验证码值
+	public void editUserCode(UserInforMation user);
 }

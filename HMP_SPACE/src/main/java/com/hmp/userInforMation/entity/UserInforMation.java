@@ -23,8 +23,17 @@ public class UserInforMation {
 	private Integer user_city;// 市 关联外键
 	private String user_detail_address;// 详细地址
 	private String user_idCard;// 身份证号
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date user_brithday;//出生年月
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date user_brithday;// 出生年月
+	private String user_code;// 验证码
+
+	public String getUser_code() {
+		return user_code;
+	}
+
+	public void setUser_code(String user_code) {
+		this.user_code = user_code;
+	}
 
 	public Date getUser_brithday() {
 		return user_brithday;
@@ -136,9 +145,7 @@ public class UserInforMation {
 				+ ", user_status=" + user_status + ", user_sex=" + user_sex + ", user_age=" + user_age + ", user_phone="
 				+ user_phone + ", user_email=" + user_email + ", user_province=" + user_province + ", user_city="
 				+ user_city + ", user_detail_address=" + user_detail_address + ", user_idCard=" + user_idCard
-				+ ", user_brithday=" + user_brithday + "]";
+				+ ", user_brithday=" + user_brithday + ", user_code=" + user_code + "]";
 	}
-
-
 
 }

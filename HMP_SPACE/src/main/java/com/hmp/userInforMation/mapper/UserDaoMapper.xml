@@ -7,8 +7,8 @@
 		eviction="LRU" readOnly="false"></cache> -->
 	<insert id="addUser" parameterType="UserInforMation">
 		insert into hmp_user
-		(USER_ID,USER_NAME,USER_PASSWORD,USER_STATUS,USER_SEX,USER_AGE,USER_PHONE,USER_EMAIL,USER_PROVINCE,USER_CITY,USER_DETAIL_ADDRESS,USER_IDCARD,USER_BRITHDAY)
-		values(seq_user_id.nextval,#{user_name},#{user_password},#{user_status},#{user_sex},#{user_age},#{user_phone},#{user_email},#{user_province},#{user_city},#{user_detail_address},#{user_idCard},#{user_brithday})
+		(USER_ID,USER_NAME,USER_PASSWORD,USER_STATUS,USER_SEX,USER_AGE,USER_PHONE,USER_EMAIL,USER_PROVINCE,USER_CITY,USER_DETAIL_ADDRESS,USER_IDCARD,USER_BRITHDAY,USER_CODE)
+		values(seq_user_id.nextval,#{user_name},#{user_password},#{user_status},#{user_sex},#{user_age},#{user_phone},#{user_email},#{user_province},#{user_city},#{user_detail_address},#{user_idCard},#{user_brithday},#{user_code})
 	</insert>
 
 	<!--用户登陆-->
@@ -74,6 +74,23 @@
 		update hmp_user 
 		<set>
 			<if test="user_password!=null">user_password=#{user_password}</if>
+		</set>
+		<where>user_id=#{user_id}</where>
+	</update>
+	
+	<!--安全中心根据用户名返回对应的元组  -->
+	<select id="queryUserByName" parameterType="String" resultType="UserInforMation">
+		select * from hmp_user u
+		<where>
+			u.user_name=#{userName}
+		</where>
+	</select>
+	
+	<!--安全中心修改改元组的验证码  -->
+	<update id="editUserCode" parameterType="UserInforMation">
+		update hmp_user 
+		<set>
+			<if test="user_code!=null">user_code=#{user_code}</if>
 		</set>
 		<where>user_id=#{user_id}</where>
 	</update>

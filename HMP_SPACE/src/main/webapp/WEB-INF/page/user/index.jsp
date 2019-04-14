@@ -13,7 +13,7 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header">
-    <div class="layui-logo"  style="font-size: 30px;">零度空间</div>
+    <div class="layui-logo"  style="font-size: 30px;">异度空间</div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
       <li class="layui-nav-item"><a href="">1111</a></li>
@@ -119,7 +119,7 @@ function userShow(){
 	        success:function (data) {
 	        	if(data.length>0){
 	        		var id=data[0].user_id;
-	        		window.open ("<c:url value='/user/userInforShow'/>?rowId="+id, "newwindow", "height=629, width=808, toolbar =no, menubar=no, scrollbars=no, resizable=no, location=no, status=no,top=80px,left=350px");
+	        		window.open ("<c:url value='/user/userInforShow'/>?rowId="+id, "newwindow", "height=629, width=825, toolbar =no, menubar=no, scrollbars=no, resizable=no, location=no, status=no,top=80px,left=350px");
 	        	}
 	        }
 	    });
