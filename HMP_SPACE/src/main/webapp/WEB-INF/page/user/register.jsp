@@ -30,7 +30,7 @@
 	</div>
 	<div
 		style="margin-top: 11px; margin-left: auto; margin-right: 300px; width: 800px;">
-		<form class="layui-form" action="<c:url value='/user/addUser'/>" method="post">
+		<form class="layui-form" action="<c:url value='/user/addUser'/>" method="post" enctype="multipart/form-data">
 			<div class="layui-form-item" style="margin-bottom: 0px;">
 				<label class="layui-form-label">用户名</label>
 				<div class="layui-input-block">
@@ -97,15 +97,7 @@
 					 <span id="clearAddress" class="close"><i class="layui-icon layui-icon-close-fill"></i></span>
 				</div>
 			</div>
-<!-- 
-			<div class="layui-form-item" style="margin-top: 10px; margin-bottom: 0px;">
-				<label class="layui-form-label">年龄</label>
-				<div class="layui-input-block">
-					<input type="text" name="user_age" lay-verify="age"
-						autocomplete="off" class="layui-input" style="width: 56.5%" id="age">
-					<span id="clearAge" class="close"><i class="layui-icon layui-icon-close-fill"></i></span>
-				</div>
-			</div> -->
+
 
 			<div class="layui-form-item" style="margin-bottom: 0px;">
 				<label class="layui-form-label">联系方式</label>
@@ -133,11 +125,22 @@
 					<span id="clearIdCard" class="close"><i class="layui-icon layui-icon-close-fill"></i></span>
 				</div>
 			</div>
+			
+			 <div class="layui-upload">
+                 <label class="layui-form-label">头像:</label>
+                 <div class="layui-upload layui-input-block">
+                     <input type="hidden" name="user_uImage" id="img" required lay-verify="photo" />
+                     <button type="button" class="layui-btn layui-btn-primary" id="fileBtn"><i class="layui-icon">&#xe67c;</i>选择文件</button>
+                     <button type="button" class="layui-btn layui-btn-warm" id="uploadBtn">开始上传</button>
+                     <img alt="头像"  style="width: 10%" id="photo">
+                 </div>
+            </div>
+			
 
 			<div class="layui-form-item"
 				style="text-align: center;margin-left: -210px;>
     <div class="layui-input-block">
-      <button class="layui-btn" lay-submit="" lay-filter="demo1" style="width:35%">立即提交</button>
+      <button class="layui-btn" lay-submit="" lay-filter="demo1" style="width:35%;margin-top:10px;">立即提交</button>
      <!--  <button type="reset" class="layui-btn layui-btn-primary">重置</button> -->
     </div>
   </div>
@@ -163,10 +166,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //创建一个编辑器
   var editIndex = layedit.build('LAY_demo_editor');
- 
- 
-  
-  
+
   //监听提交
   form.on('submit(demo1)', function(data){
     layer.alert(JSON.stringify(data.field), {
@@ -270,7 +270,7 @@ function querySheng() {
 		    }
 		  } 
 		  ,password: function(value){
-		     if(value.length < 4){
+		     if(value.length < 6){
 		     	 return '密码至少6位';
 		     }
 		   }
@@ -300,6 +300,11 @@ function querySheng() {
 		   ,idCard: function(value){
 		     if(value.length!=18){
 		     	 return '身份证号必须为18位';
+		     }
+		   }
+		    ,photo: function(value){
+		     if(value==""){
+		     	 return '头像不能为空';
 		     }
 		   }
 	}); 
@@ -338,12 +343,24 @@ function querySheng() {
 			}
 		});
    	});
-   	
-   	
 });
 
-
-
+	layui.use('upload',function(){
+          var upload = layui.upload;
+          upload.render({
+              elem: '#fileBtn'
+              ,url: "<c:url value='/user/updatePersonalById'/>"
+              ,accept: 'file'
+              ,auto: false
+              ,bindAction: '#uploadBtn'
+             ,done: function(res){
+                  //alert(res.data.src);
+                  //$("[name=user_uImage]").val(res.data.src);
+                  $('#img').val(res.data.src);
+                  $('#photo').attr("src","/HMP_SPACE/"+res.data.src);
+              }
+          });
+     });
 </script>
 </body>
 </html>

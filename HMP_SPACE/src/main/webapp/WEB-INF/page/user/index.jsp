@@ -31,10 +31,11 @@
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item">
         <a href="javascript:;">
-          <img src="http://t.cn/RCzsdCq" class="layui-nav-img" id="userName">
+          <img  class="layui-nav-img" id="userName">
       			${userName}
         </a>
         <input type="hidden" value="${userId}" id="userId">
+        <input type="hidden" value="${image}">
         <dl class="layui-nav-child">
           <dd><a onclick="userShow()">基本资料</a></dd>
           <dd><a onclick="securitySetting()">安全设置</a></dd>
@@ -91,6 +92,7 @@
 layui.use('element', function(){
   var element = layui.element;
   var $ = layui.$;
+  userInfor();
 }); 
 
 function reinitIframe(){
@@ -141,6 +143,27 @@ function userShow(){
 	        		var id=data[0].user_id;
 	        		window.open ("<c:url value='/user/securitySet'/>?rowId="+id, "newwindow", "height=429, width=808, toolbar =no, menubar=no, scrollbars=no, resizable=no, location=no, status=no,top=100px,left=350px");
 	        	}
+	        }
+	    });
+	}
+	
+	
+	function userInfor(){
+		var userId=$('#userId').val();
+		$.ajax({
+	        url:"<c:url value='/user/securitySetting'/>",
+	        type:"post",
+	        data:{"userId":userId},
+	        dataType:'json',
+	        async:false,
+	        error : function() {
+				alert("出错");
+			},
+	        success:function (data) {
+	        	for(var i=0;i<data.length;i++){
+	        		var photoUrl=data[i].user_uImage;
+	        	}
+	        	$('#userName').attr("src", "/HMP_SPACE/"+photoUrl);
 	        }
 	    });
 	}

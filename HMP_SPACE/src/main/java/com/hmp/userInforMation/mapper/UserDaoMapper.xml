@@ -7,11 +7,11 @@
 		eviction="LRU" readOnly="false"></cache> -->
 	<insert id="addUser" parameterType="UserInforMation">
 		insert into hmp_user
-		(USER_ID,USER_NAME,USER_PASSWORD,USER_STATUS,USER_SEX,USER_AGE,USER_PHONE,USER_EMAIL,USER_PROVINCE,USER_CITY,USER_DETAIL_ADDRESS,USER_IDCARD,USER_BRITHDAY,USER_CODE)
-		values(seq_user_id.nextval,#{user_name},#{user_password},#{user_status},#{user_sex},#{user_age},#{user_phone},#{user_email},#{user_province},#{user_city},#{user_detail_address},#{user_idCard},#{user_brithday},#{user_code})
+		(USER_ID,USER_NAME,USER_PASSWORD,USER_STATUS,USER_SEX,USER_AGE,USER_PHONE,USER_EMAIL,USER_PROVINCE,USER_CITY,USER_DETAIL_ADDRESS,USER_IDCARD,USER_BRITHDAY,USER_CODE,USER_UIMAGE)
+		values(seq_user_id.nextval,#{user_name},#{user_password},#{user_status},#{user_sex},#{user_age},#{user_phone},#{user_email},#{user_province},#{user_city},#{user_detail_address},#{user_idCard},#{user_brithday},#{user_code},#{user_uImage})
 	</insert>
 
-	<!--用户登陆-->
+	<!--用户登陆 -->
 	<select id="login" parameterType="String" resultType="UserInforMation">
 		select * from hmp_user h
 		<where>
@@ -19,42 +19,42 @@
 			and h.user_password=#{password}
 		</where>
 	</select>
-	
-	<!--用户信息展现  -->
+
+	<!--用户信息展现 -->
 	<select id="userShow" parameterType="Integer" resultType="UserInforMation">
 		select * from hmp_user h
 		<where>
 			h.user_id=#{user_id}
 		</where>
 	</select>
-	
-	<!--用户信息展现  -->
+
+	<!--用户信息展现 -->
 	<select id="queryUserById" parameterType="Integer" resultType="UserInforMation">
 		select * from hmp_user h
 		<where>
 			h.user_id=#{user_id}
 		</where>
 	</select>
-	
-	<!--用户省展现  -->
+
+	<!--用户省展现 -->
 	<select id="queryProvince" parameterType="Integer" resultType="Province">
 		select * from sys_dm_sheng s
 		<where>
 			s.shengdm=#{shengdm}
 		</where>
 	</select>
-	
-	<!--用户市展现  -->
+
+	<!--用户市展现 -->
 	<select id="queryCity" parameterType="Integer" resultType="City">
 		select * from sys_dm_shi s
 		<where>
 			s.shidm=#{shidm}
 		</where>
 	</select>
-	
-	<!--修改用户信息  -->
+
+	<!--修改用户信息 -->
 	<update id="editUser" parameterType="UserInforMation">
-		update hmp_user 
+		update hmp_user
 		<set>
 			<if test="user_sex!=null">user_sex=#{user_sex},</if>
 			<if test="user_age!=null">user_age=#{user_age},</if>
@@ -64,31 +64,32 @@
 			<if test="user_province!=null">user_province=#{user_province},</if>
 			<if test="user_city!=null">user_city=#{user_city},</if>
 			<if test="user_detail_address!=null">user_detail_address=#{user_detail_address},</if>
-			<if test="user_idCard!=null">user_idCard=#{user_idCard}</if>
+			<if test="user_idCard!=null">user_idCard=#{user_idCard},</if>
+			<if test="user_uImage!=null">user_uImage=#{user_uImage}</if>
 		</set>
 		<where>user_id=#{user_id}</where>
 	</update>
-	
-	<!--安全中心修改用户密码  -->
+
+	<!--安全中心修改用户密码 -->
 	<update id="updatePassword" parameterType="UserInforMation">
-		update hmp_user 
+		update hmp_user
 		<set>
 			<if test="user_password!=null">user_password=#{user_password}</if>
 		</set>
 		<where>user_id=#{user_id}</where>
 	</update>
-	
-	<!--安全中心根据用户名返回对应的元组  -->
+
+	<!--安全中心根据用户名返回对应的元组 -->
 	<select id="queryUserByName" parameterType="String" resultType="UserInforMation">
 		select * from hmp_user u
 		<where>
 			u.user_name=#{userName}
 		</where>
 	</select>
-	
-	<!--安全中心修改改元组的验证码  -->
+
+	<!--安全中心修改改元组的验证码 -->
 	<update id="editUserCode" parameterType="UserInforMation">
-		update hmp_user 
+		update hmp_user
 		<set>
 			<if test="user_code!=null">user_code=#{user_code}</if>
 		</set>

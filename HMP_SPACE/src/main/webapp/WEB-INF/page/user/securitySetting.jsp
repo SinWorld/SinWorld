@@ -132,6 +132,9 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 		   	if(	erro.is(':visible')){
 		   	 	return '原密码输入错误';
 		    }
+		    if(value.length==0){
+		    	return '请输入原密码';
+		    }
 		   },surePassword: function(value){
 		   	var newPassword=$('#newPassword').val();
 		     if(value!= newPassword){

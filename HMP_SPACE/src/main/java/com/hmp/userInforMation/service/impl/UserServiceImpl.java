@@ -56,6 +56,8 @@ public class UserServiceImpl implements UserService {
 	public void editUserCode(UserInforMation user) {
 		userDao.editUserCode(user);
 	}
+
+	
 	
 
 }

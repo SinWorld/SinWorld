@@ -26,6 +26,15 @@ public class UserInforMation {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date user_brithday;// 出生年月
 	private String user_code;// 验证码
+	private String user_uImage;// 头像
+
+	public String getUser_uImage() {
+		return user_uImage;
+	}
+
+	public void setUser_uImage(String user_uImage) {
+		this.user_uImage = user_uImage;
+	}
 
 	public String getUser_code() {
 		return user_code;
@@ -145,7 +154,8 @@ public class UserInforMation {
 				+ ", user_status=" + user_status + ", user_sex=" + user_sex + ", user_age=" + user_age + ", user_phone="
 				+ user_phone + ", user_email=" + user_email + ", user_province=" + user_province + ", user_city="
 				+ user_city + ", user_detail_address=" + user_detail_address + ", user_idCard=" + user_idCard
-				+ ", user_brithday=" + user_brithday + ", user_code=" + user_code + "]";
+				+ ", user_brithday=" + user_brithday + ", user_code=" + user_code + ", user_uImage=" + user_uImage
+				+ "]";
 	}
 
 }

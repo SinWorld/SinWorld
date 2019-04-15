@@ -31,7 +31,7 @@
 	</div>
 	<div
 		style="margin-top: 11px; margin-left: 130px; margin-right: 300px; width: 695px;">
-		<form class="layui-form"action="<c:url value='/user/editUser'/>" method="post">
+		<form class="layui-form"action="<c:url value='/user/editUser'/>" method="post" enctype="multipart/form-data">
 			<div class="layui-form-item">
 				<label class="layui-form-label">用户名</label>
 				<div class="layui-input-block">
@@ -68,7 +68,7 @@
 					</select>
 				</div>
 				<div class="layui-input-inline"  style="width: 160px;">
-					<select name="user_city" id="city" lay-verify="city">
+					<select name="user_city" id="city" lay-verify="city" lay-filter="city">
 						<option value="${city.shiDM}">${city.shiMC}</option>
 					</select>
 				</div>
@@ -110,7 +110,7 @@
 				</div>
 			</div>
 
-			<div class="layui-form-item" style="margin-bottom: 0px;">
+			<div class="layui-form-item" style="margin-bottom: -8px;">
 				<label class="layui-form-label">身份证号</label>
 				<div class="layui-input-block">
 					<input type="text" name="user_idCard" lay-verify="idCard"
@@ -118,9 +118,20 @@
 					<span id="clearIdCard" class="close"><i class="layui-icon layui-icon-close-fill"></i></span>
 				</div>
 			</div>
+			
+			 <div class="layui-upload">
+                 <label class="layui-form-label" style="margin-top: 8px;">头像</label>
+                 <div class="layui-upload layui-input-block">
+                     <input type="hidden" name="user_uImage" id="img" required lay-verify="required" />
+                     <input type="hidden" value="${photoUrl}">
+                     <button type="button" class="layui-btn layui-btn-primary" id="fileBtn"><i class="layui-icon">&#xe67c;</i>选择文件</button>
+                     <button type="button" class="layui-btn layui-btn-warm" id="uploadBtn" style="margin-right: 35px;">开始上传</button>
+                     <img alt="头像"  style="width: 10%" id="photo" src="<c:url value='/${user.user_uImage}'/>">
+                 </div>
+            </div>
 
 			<div class="layui-form-item"
-				style="text-align: center;margin-left: -140px;>
+				style="text-align: center;margin-left: -140px; margin-top:10px;>
     <div class="layui-input-block">
     <button class="layui-btn" lay-submit="" lay-filter="demo1" style="width:35%">立即提交</button> 
       <!-- <button type="reset" class="layui-btn layui-btn-primary">重置</button> -->
@@ -206,6 +217,7 @@ function querySheng() {
 			});
 	});
 	
+	
 	function setSex(form){
 		var sexValue=$('#sex').val();
 		var man=$('#man');
@@ -248,6 +260,23 @@ function querySheng() {
    	$('#clearIdCard').click(function(){
    		$('#idCard').val("");
    	});
+   	
+   	layui.use('upload',function(){
+         var upload = layui.upload;
+         upload.render({
+             elem: '#fileBtn'
+             ,url: "<c:url value='/user/updatePersonalById'/>"
+             ,accept: 'file'
+             ,auto: false
+             ,bindAction: '#uploadBtn'
+            ,done: function(res){
+                //alert(res.data.src);
+                 //$("[name=user_uImage]").val(res.data.src);
+                  $('#img').val(res.data.src);
+                 $('#photo').attr("src","/HMP_SPACE/"+res.data.src);
+             }
+         });
+    });
 </script>
 </body>
 </html>

@@ -114,6 +114,20 @@ layui.use(['form', 'layedit', 'laydate'], function(){
  $(document).on('click','#sendEmail',function(){
   	var email=$('#email').val();
   	var userName=$('#userName').val();
+  	if(userName==""){
+	  	layui.use(['form', 'layedit', 'laydate'], function(){
+					  var form = layui.form,layer = layui.layer,layedit = layui.layedit,laydate = layui.laydate;
+				  });
+			layer.alert('请输入用户名',{icon: 5});
+			return;
+  	}
+  	if(email==""){
+	  	layui.use(['form', 'layedit', 'laydate'], function(){
+					  var form = layui.form,layer = layui.layer,layedit = layui.layedit,laydate = layui.laydate;
+				  });
+			layer.alert('请输入邮箱',{icon: 5});
+			return;
+  	}
    	$.ajax({
 		type : "post",
 		url : "<c:url value='/user/queryUserCode'/>",

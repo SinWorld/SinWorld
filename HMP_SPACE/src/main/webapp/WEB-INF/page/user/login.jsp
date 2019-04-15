@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../layui-v2.4.5/layui/css/style.css">
  　	<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 </head>
-<body>
+<body background="../layui-v2.4.5/layui/images/login/1.jpg" style="background-size: 100%;">
  <style>
 	.close{
 		float: right;
@@ -19,7 +19,7 @@
 	   	cursor:pointer;
 	}
 </style>
-<div class="login-main">
+<div class="login-main" style="margin-top: 40px;">
     <header class="layui-elip">登录</header>
     <form class="layui-form" method="post">
         <div class="layui-input-inline">
