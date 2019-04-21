@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
- <beans xmlns="http://www.springframework.org/schema/beans"
+<beans xmlns="http://www.springframework.org/schema/beans"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:context="http://www.springframework.org/schema/context"
         xsi:schemaLocation="http://www.springframework.org/schema/beans 
         http://www.springframework.org/schema/beans/spring-beans.xsd 
         http://www.springframework.org/schema/context 
          http://www.springframework.org/schema/context/spring-context.xsd">
-         
      <!--配置整合mybatis过程 1.配置数据库相关参数-->
      <context:property-placeholder location="classpath:jdbc.properties"/>
     
@@ -39,25 +38,18 @@
          <!--注入数据库连接池-->
          <property name="dataSource" ref="dataSource"/>
          <property name="configLocation" value="classpath:mybatis-config.xml"/>
-         <property name="typeAliasesPackage">
-         	<array>
-         		<value>com.hmp.userInforMation.entity</value>
-         	</array>
-         </property>
+         <property name="typeAliasesPackage" value="com.hmp" />
      	 <property name="mapperLocations">
      	 	<array>
-     	 		<value>classpath:com/hmp/userInforMation/mapper/*Mapper.xml</value>
+     	 		<value>classpath*:com/hmp/userInforMation/mapper/*.xml</value>
+     	 		<value>classpath*:com/hmp/bookManagement/mapper/*.xml</value>
      	 	</array>
      	 </property>
      </bean>
      <!--4:配置扫描Dao接口包,动态实现DAO接口,注入到spring容器-->
      <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <!-- 给出需要扫描的Dao接口-->
-         <property name="basePackage">
-         	<array>
-         		<value>com.hmp.userInforMation.dao</value>
-         	</array>
-         </property>
+      		<!-- 给出需要扫描的Dao接口-->
+	     <property name="basePackage" value="com.hmp.userInforMation.dao;com.hmp.bookManagement.dao" />
          <!--注入SqlSessionFactory-->
          <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
      </bean>

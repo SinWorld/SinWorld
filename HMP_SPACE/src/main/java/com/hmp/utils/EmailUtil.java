@@ -21,7 +21,7 @@ public class EmailUtil {
 	
 	private static final String MAIL_USER = "767320980@qq.com";
 	//
-	private static final String MAIL_PASSWD = "fyvkhxsxnbcrbcij";
+	private static final String MAIL_PASSWD = "fyvkhxsxnbcrbcij";//授权码
 	private static final String MAIL_SMTP_HOST = "smtp.qq.com";
 	private static final String MAIL_MESSAGE_TYPE = "text/html;charset=gb2312";
 	@SuppressWarnings("static-access")

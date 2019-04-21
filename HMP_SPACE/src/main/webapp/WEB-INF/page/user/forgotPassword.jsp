@@ -8,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>注册页</title>
+<title>找回密码</title>
 <link rel="stylesheet" href="../layui-v2.4.5/layui/css/layui.css">
 <link rel="stylesheet" href="//res.layui.com/layui/dist/css/layui.css"  media="all">
 <script src="../jquery/jquery-3.3.1.js"></script>

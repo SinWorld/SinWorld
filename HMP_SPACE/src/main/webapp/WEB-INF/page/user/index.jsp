@@ -50,11 +50,11 @@
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
       <ul class="layui-nav layui-nav-tree"  lay-filter="test">
       <li class="layui-nav-item"><a href="">首页</a></li>
-        <li class="layui-nav-item layui-nav-itemed">
-          <a class="" href="javascript:;">所有商品</a>
+        <li class="layui-nav-item">
+          <a class="" href="javascript:;">图书商城</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;">列表一</a></dd>
-            <dd><a href="javascript:;">列表二</a></dd>
+            <dd><a onclick="bookInitPage()">首页</a></dd>
+            <dd><a onclick="addBook()">添加图书</a></dd>
             <dd><a href="javascript:;">列表三</a></dd>
             <dd><a href="">超链接</a></dd>
           </dl>
@@ -166,6 +166,14 @@ function userShow(){
 	        	$('#userName').attr("src", "/HMP_SPACE/"+photoUrl);
 	        }
 	    });
+	}
+	
+	function addBook(){
+		window.open ("<c:url value='/book/initAddBook'/>","newwindow", "height=640, width=825, toolbar =no, menubar=no, scrollbars=no, resizable=no, location=no, status=no,top=80px,left=350px");
+	}
+	
+	function bookInitPage(){
+		window.open("<c:url value='/book/initIndex'/>")
 	}
 </script>
 </body>

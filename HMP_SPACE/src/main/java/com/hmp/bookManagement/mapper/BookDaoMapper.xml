@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hmp.bookManagement.dao.BookDao">
+	<!-- 定义缓存 一般是一级缓存，如果用同一个sqlsession 那么相同查询直接会从缓存中查找 <cache size="1024" flushInterval="60000" 
+		eviction="LRU" readOnly="false"></cache> -->
+
+	<insert id="addBook" parameterType="BookInforMation">
+		insert into hmp_book
+		(BOOK_ID,BOOK_NAME,BOOK_AUTHOR,BOOK_PRESS,BOOK_VERSION,BOOK_TYPE,BOOK_PRICE,BOOK_IMAGE,BOOK_SYNOPSIS)
+		values(seq_book_id.nextval,#{book_name},#{book_author},#{book_press},#{book_version},#{book_type},#{book_price},#{book_image},#{book_synopsis})
+	</insert>
+
+	<!--初始化图书种类 -->
+	<select id="bookType" resultType="HMP_DM_CodeList">
+		select * from hmp_dm_codelist h
+		<where>
+			h.codelist_type='book_type'
+		</where>
+	</select>
+
+	<!--书籍详细信息展示 -->
+	<select id="queryBookById" parameterType="Integer" resultType="BookInforMation">
+		select * from hmp_book b
+		<where>
+			b.book_id=#{bookId}
+		</where>
+	</select>
+
+	<!--查询总条数 -->
+	<select id="totalPage" resultType="Integer" >
+		select count(1) from hmp_book
+	</select>
+
+	<!--分页展现 -->
+	<select id="pageList" parameterType="QueryVo" resultType="BookInforMation">
+		select * from (select row_.*, rownum rownum_ from (select * from
+		hmp_book order by book_id asc ) row_
+		<where>
+			rownum &lt;=#{size}
+		</where>)
+		<where>
+			rownum_ &gt;=#{page}
+		</where>
+	</select>
+	
+	<!--根据书籍种类检索书籍  -->
+	<select id="queryBookByType" parameterType="QueryVo" resultType="BookInforMation">
+		select * from (select row_.*, rownum rownum_ from (select * from
+		hmp_book order by book_id asc ) row_
+		<where>
+			rownum &lt;=#{size}
+		</where>)
+		<where>
+			rownum_ &gt;=#{page} and book_type=#{bookType}
+		</where>
+	</select>
+</mapper>
