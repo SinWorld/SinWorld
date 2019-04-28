@@ -364,5 +364,5 @@ public class UserController {
 		newName = r.nextInt(99999999) + d.getTime() + newName;
 		return newName;
 	}
-
+	
 }

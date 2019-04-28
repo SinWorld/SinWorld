@@ -135,7 +135,6 @@
                      <img alt="头像"  style="width: 10%" id="photo">
                  </div>
             </div>
-			
 
 			<div class="layui-form-item"
 				style="text-align: center;margin-left: -210px;>
@@ -148,6 +147,7 @@
  </div>
 <script src="../layui-v2.4.5/layui/layui.js" charset="utf-8"></script>
  <script>
+
 layui.use(['form', 'layedit', 'laydate'], function(){
   var form = layui.form
   ,layer = layui.layer
@@ -155,7 +155,14 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   ,laydate = layui.laydate;
   form.render();
   querySheng();
-  
+  layer.open({
+  	type:2,
+  	title:'12',
+  	area: ['50%','60%'],
+  	move:false,
+  	resize:false,
+  	content:['https://www.baidu.com','no']
+  });
   //日期
   laydate.render({
     elem: '#date'

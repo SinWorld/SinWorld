@@ -20,7 +20,7 @@
       </p>
       <div class="sn-quick-menu">
        <div class="login"><a href="">${userName}</a></div>
-        <div class="sp-cart"><a href="<c:url value='/book/initShopCart'/>">购物车</a></div>
+        <div class="sp-cart"><a href="<c:url value='/book/initShopCart'/>"><i class="layui-icon">&#xe698;</i></a></div>
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
       <div class="headerCon">
         <h1 class="mallLogo">
           <a href="#" title="母婴商城">
-            <img src="../layui-v2.4.5/layui/static/img/logo.jpg" style="width: 8%">
+            <img src="../layui-v2.4.5/layui/static/img/logo.jpg" style="width: 30%;margin-top: 25px;">
           </a>
         </h1>
         <div class="mallSearch">
@@ -80,15 +80,9 @@
               <h4>${book.book_name} </h4>
               <span><i class="layui-icon layui-icon-rate-solid"></i>收藏</span>
             </div>
-            <div class="summary" style="height: 165px;">
+            <div class="summary" style="height:auto;">
               <p class="reference"><span>参考价</span> <del>￥280.00</del></p>
               <p class="activity"><span>活动价</span><strong class="price"><i>￥</i>${book.book_price}</strong></p>
-              <p class="address-box"><span>送&nbsp;&nbsp;&nbsp;&nbsp;至</span>
-              	<strong class="address">
-					<input type="text" name="user_detail_address" lay-verify="address"
-						autocomplete="off" class="layui-input" style="width: 53.5%;float: right;" id="address">
-				</strong>
-			  </p>
 			 <p ><span>书籍详情</span><strong>${book.book_synopsis}</strong></p>
             </div>
             <form action='<c:url value="/book/addCart"/>' method="post" id="cartForm">
@@ -105,43 +99,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="layui-clear">
-        <div class="aside">
-          <h4>热销推荐</h4>
-          <div class="item-list">
-            <div class="item">
-              <img src="../layui-v2.4.5/layui/static/img/details_img2.jpg">
-              <p><span>可爱宝宝粉色连体秋裤</span><span class="pric">￥99.00</span></p>
-            </div>
-            <div class="item">
-              <img src="../layui-v2.4.5/layui/static/img/details_img2.jpg">
-              <p><span>可爱宝宝粉色连体秋裤</span><span class="pric">￥99.00</span></p>
-            </div>
-            <div class="item">
-              <img src="../layui-v2.4.5/layui/static/img/details_img2.jpg">
-              <p><span>可爱宝宝粉色连体秋裤</span><span class="pric">￥99.00</span></p>
-            </div>
-            <div class="item">
-              <img src="../layui-v2.4.5/layui/static/img/details_img2.jpg">
-              <p><span>可爱宝宝粉色连体秋裤</span><span class="pric">￥99.00</span></p>
-            </div>
-            <div class="item">
-              <img src="../layui-v2.4.5/layui/static/img/details_img2.jpg">
-              <p><span>可爱宝宝粉色连体秋裤</span><span class="pric">￥99.00</span></p>
-            </div>
-            <div class="item">
-              <img src="../layui-v2.4.5/layui/static/img/details_img2.jpg">
-              <p><span>可爱宝宝粉色连体秋裤</span><span class="pric">￥99.00</span></p>
-            </div>
-          </div>
-        </div>
-        <div class="detail">
-          <h4>详情</h4>
-          <div class="item">
-            <img src="../layui-v2.4.5/layui/static/img/details_imgbig.jpg">
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 <script type="text/javascript" src="../jquery/jquery-3.3.1.js"></script>
@@ -168,6 +125,9 @@
   $('#addCart').click(function(){
 	 $('#cartForm').submit(); 
   });
+  
+  
+  
 </script>
 </body>
 </html>

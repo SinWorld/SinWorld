@@ -46,5 +46,13 @@ public class BookServiceImpl implements BookService {
 	public List<BookInforMation> queryBookByType(QueryVo vo) {
 		return bookDao.queryBookByType(vo);
 	}
+	//根据书籍种类检索总条数
+	public Integer totalPageBybookType(Integer typeId) {
+		return bookDao.totalPageBybookType(typeId);
+	}
+	//根据书籍名称检索总条数
+	public Integer totalPageBybookName(String bookName) {
+		return bookDao.totalPageBybookName(bookName);
+	}
 
 }

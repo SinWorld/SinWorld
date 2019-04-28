@@ -7,9 +7,18 @@ public class QueryVo {
 	private Integer size = 10;
 	// 开始行
 	private Integer startRow = 0;
-	//书籍种类
+	// 书籍种类
 	private Integer bookType;
-	
+	// 书籍名称
+	private String bookName;
+
+	public String getBookName() {
+		return bookName;
+	}
+
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
+	}
 
 	public Integer getBookType() {
 		return bookType;

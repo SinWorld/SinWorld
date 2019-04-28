@@ -38,7 +38,7 @@
 		select * from (select row_.*, rownum rownum_ from (select * from
 		hmp_book order by book_id asc ) row_
 		<where>
-			rownum &lt;=#{size}
+			rownum &lt;=#{size}  and book_name like '%${bookName}%'
 		</where>)
 		<where>
 			rownum_ &gt;=#{page}
@@ -50,10 +50,26 @@
 		select * from (select row_.*, rownum rownum_ from (select * from
 		hmp_book order by book_id asc ) row_
 		<where>
-			rownum &lt;=#{size}
+			rownum &lt;=#{size} and book_type=#{bookType}
 		</where>)
 		<where>
-			rownum_ &gt;=#{page} and book_type=#{bookType}
+			rownum_ &gt;=#{page} 
 		</where>
 	</select>
+	
+	<!--根据书籍种类检索总条数  -->
+	<select id="totalPageBybookType" parameterType="Integer" resultType="Integer">
+		select count(1) from hmp_book b 
+		<where>
+			b.book_type=#{typeId}
+		</where>
+	</select>
+	<!--根据书籍名称检索总条数  -->
+	<select id="totalPageBybookName" parameterType="String" resultType="Integer">
+		select count(1) from hmp_book b 
+		<where>
+			b.book_name like '%${bookName}%'
+		</where>
+	</select>
+	
 </mapper>

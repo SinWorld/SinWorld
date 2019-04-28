@@ -31,7 +31,8 @@
 					<a href="">${userName}</a>
 				</div>
 				<div class="sp-cart">
-					<a href="<c:url value='/book/initShopCart'/>"><i class="layui-icon">&#xe698;</i></a>
+					<a href="<c:url value='/book/initShopCart'/>"><i
+						class="layui-icon">&#xe698;</i></a>
 				</div>
 			</div>
 		</div>
@@ -43,14 +44,15 @@
 			<div class="headerCon">
 				<h1 class="mallLogo">
 					<a href="#" title="图书商城"> <img
-						src="../layui-v2.4.5/layui/static/img/logo.jpg" style="width: 30%;margin-top: 25px;">
+						src="../layui-v2.4.5/layui/static/img/logo.jpg"
+						style="width: 30%; margin-top: 25px;">
 					</a>
 				</h1>
 				<div class="mallSearch">
 					<form action="" class="layui-form" novalidate>
 						<input type="text" name="title" required lay-verify="required"
-							autocomplete="off" class="layui-input" placeholder="请输入需要的商品" id="productName">
-						<button class="layui-btn" lay-submit lay-filter="formDemo" type="button" onclick="queryBookByBookName()">
+							autocomplete="off" class="layui-input" placeholder="请输入需要的商品">
+						<button class="layui-btn" lay-submit lay-filter="formDemo">
 							<i class="layui-icon layui-icon-search"></i>
 						</button>
 						<input type="hidden" name="" value="">
@@ -76,8 +78,10 @@
 		<div class="category-con">
 			<div class="category-inner-con w1200">
 				<div class="category-type">
-				<h3>全部分类<i class="layui-icon" id="fl">&#xe61a;</i></h3>
-					
+					<h3>
+						全部分类<i class="layui-icon" id="fl">&#xe61a;</i>
+					</h3>
+
 				</div>
 				<div class="category-tab-content" id="book_type">
 					<div class="nav-con">
@@ -95,101 +99,17 @@
 				</div>
 			</div>
 		</div>
-		<div class="floors">
-			<div class="sk">
-				<div class="sk_inner w1200">
-					<div class="sk_hd">
-						<a href="javascript:;"> <img
-							src="../layui-v2.4.5/layui/static/img/s_img1.jpg">
-						</a>
-					</div>
-					<div class="sk_bd">
-						<div class="layui-carousel" id="test1">
-							<div carousel-item>
-								<div class="item-box">
-									<div class="item">
-										<a href="javascript:;"><img
-											src="../layui-v2.4.5/layui/static/img/kc.jpg"></a>
-										<div class="title" style="text-align: center;">边城</div>
-										<div class="price">
-											<span>￥49.00</span>
-											<del>￥99.00</del>
-										</div>
-									</div>
-									<div class="item">
-										<a href="javascript:;"><img
-											src="../layui-v2.4.5/layui/static/img/ll.jpg"></a>
-										<div class="title" style="text-align: center;">楼兰</div>
-										<div class="price">
-											<span>￥49.00</span>
-											<del>￥99.00</del>
-										</div>
-									</div>
-									<div class="item">
-										<a href="javascript:;"><img
-											src="../layui-v2.4.5/layui/static/img/fxcs.jpg"></a>
-										<div class="title" style="text-align: center;">繁星春水</div>
-										<div class="price">
-											<span>￥49.00</span>
-											<del>￥99.00</del>
-										</div>
-									</div>
-									<div class="item">
-										<a href="javascript:;"><img
-											src="../layui-v2.4.5/layui/static/img/bc.jpg"></a>
-										<div class="title" style="text-align: center;">边城</div>
-										<div class="price">
-											<span>￥49.00</span>
-											<del>￥99.00</del>
-										</div>
-									</div>
-								</div>
-								<div class="item-box">
-									<div class="item">
-										<a href="javascript:;"><img
-											src="../layui-v2.4.5/layui/static/img/chv.jpg"></a>
-										<div class="title" style="text-align: center;">茶花女</div>
-										<div class="price">
-											<span>￥49.00</span>
-											<del>￥99.00</del>
-										</div>
-									</div>
-									<div class="item">
-										<a href="javascript:;"><img
-											src="../layui-v2.4.5/layui/static/img/kc.jpg"></a>
-										<div class="title" style="text-align: center;">边城</div>
-										<div class="price">
-											<span>￥49.00</span>
-											<del>￥99.00</del>
-										</div>
-									</div>
-									<div class="item">
-										<a href="javascript:;"><img
-											src="../layui-v2.4.5/layui/static/img/ll.jpg"></a>
-										<div class="title" style="text-align: center;">楼兰</div>
-										<div class="price">
-											<span>￥49.00</span>
-											<del>￥99.00</del>
-										</div>
-									</div>
-									<div class="item">
-										<a href="javascript:;"><img
-											src="../layui-v2.4.5/layui/static/img/fxcs.jpg"></a>
-										<div class="title" style="text-align: center;">繁星春水</div>
-										<div class="price">
-											<span>￥49.00</span>
-											<del>￥99.00</del>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		
 
-		<div class="product-cont w1200" id="product-cont">
+
+
+
+
+	
+
+
+
+	<!-- 	<div class="product-cont w1200" id="product-cont">
 			<div class="product-item product-item1 layui-clear">
 				<div class="left-title">
 					<h4>
@@ -268,11 +188,11 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
-		<div class="product-list-box" id="product-list-box">
+		<div class="product-list-box" id="product-list-box" style="margin-top: 80px;">
 			<div class="product-list-cont w1200">
-				<h4>更多推荐</h4>
+				<h4>书籍展示</h4>
 				<div class="product-item-box layui-clear">
 
 					<%-- <div class="list-item">
@@ -282,10 +202,10 @@
 	          </div> --%>
 					<div id="product"></div>
 					<br/>
-					<div id="demo7" style="margin-top: 50%"></div>
+					<div id="demo7" style="margin-top: 55%"></div>
 					<fieldset class="layui-elem-field layui-field-title"
 						style="margin-top: 30px;"></fieldset>
-					<input type="hidden" id="total">
+					<input type="hidden" id="page">
 				</div>
 			</div>
 		</div>
@@ -318,30 +238,29 @@
 layui.config({
     base: '../layui-v2.4.5/layui/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
   }).use(['mm','carousel','laypage','layer'],function(){
-      var carousel = layui.carousel
-      ,laypage = layui.laypage
-      ,layer = layui.layer;
-     mm = layui.mm;
-     var option = {
-        elem: '#test1'
-        ,width: '100%' //设置容器宽度
-        ,arrow: 'always'
-        ,height:'298' 
-        ,indicator:'none'
+      var carousel = layui.carousel,laypage = layui.laypage,layer = layui.layer;
+      mm = layui.mm;
+      var option = {
+        elem: '#test1',
+        width: '100%',//设置容器宽度
+        arrow: 'always',
+        height:'298',
+        indicator:'none'
       }
       carousel.render(option);
       bookType();
      //完整功能
      laypage.render({
-       elem: 'demo7'
-       ,count: ${totalPage}
-       ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-       ,jump: function(obj){
+       elem: 'demo7',
+       count: ${totalPage},
+       layout:['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+       jump: function(obj){
     	   var page=obj.curr;
+    	   var typeId= GetRequest();
     	   $.ajax({
-   	        url:"<c:url value='/book/pageBook'/>",
+   	        url:"<c:url value='/book/queryBookByType'/>",
    	        type:"post",
-   	        data:{"nowPage":page},
+   	        data:{"nowPage":page,"typeId":typeId.typeId},
    	        dataType:'json',
    	        async:false,
    	        error : function() {
@@ -409,52 +328,6 @@ function GetRequest() {
         }
     }
     return theRequest;
-}
-
-function queryBookByBookName(){
-	layui.use(['mm','carousel','laypage','layer'],function(){
-	      var carousel = layui.carousel
-	      ,laypage = layui.laypage
-	      ,layer = layui.layer;
-	     //完整功能
-	     laypage.render({
-	       jump: function(obj){
-	    	   var page=obj.curr;
-	    	   var product=$('#productName').val();
-	    	   $.ajax({
-	   	        url:"<c:url value='/book/pageBook'/>",
-	   	        type:"post",
-	   	        data:{"nowPage":page,"bookName":product},
-	   	        dataType:'json',
-	   	        async:false,
-	   	        error : function() {
-	   				alert("出错");
-	   			},
-	   	        success:function (data) {
-	   	        	if(temp!=1){
-	   	        		$('#product').empty();
-	   	        	}
-	   	        	for(var i=0;i<data.length;i++){
-	   	        		var total=data[i].page.total;
-	   	        		$('#total').val(total);
-	   	        		for(var j=0;j<data[i].page.rows.length;j++){
-	   	        			$('#product').append("<div class='list-item pointer'><a onclick='initBookDetails("+data[i].page.rows[j].book_id+")'>"
-	   	        			+"<img src='${pageContext.request.contextPath}/"+data[i].page.rows[j].book_image+"' style='width: 62%'></a>"
-	   	        			+"<p style='text-align: center;'>"+data[i].page.rows[j].book_name+"</p>"
-	   	        			+"<span>￥"+data[i].page.rows[j].book_price+"</span></div>");
-	   	        			
-	   	        		}
-	   	        	}
-	   	        	temp++;
-	   	        }
-	   	    });
-	       }
-	       ,elem: 'demo7'
-		   ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-	       ,count: $('#total').val()
-	     }); 
-	    
-	});
 }
 </script>
 </body>

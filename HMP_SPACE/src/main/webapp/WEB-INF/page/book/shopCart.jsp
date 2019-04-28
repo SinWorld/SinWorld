@@ -10,6 +10,15 @@
 <script type="text/javascript" src="../layui-v2.4.5/layui/layui.js"></script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@page isELIgnored="false" %>
+<style>
+	.close{
+		float: right;
+	    position: relative;
+	    top: -28px;
+	    right: 265px;
+	   	cursor:pointer;
+	}
+</style>
 </head>
 <body>
  <div class="site-nav-bg">
@@ -20,7 +29,7 @@
       </p>
       <div class="sn-quick-menu">
         <div class="login"><a href="">${userName}</a></div>
-        <div class="sp-cart"><a href="<c:url value='/book/initShopCart'/>">购物车</a></div>
+        <div class="sp-cart"><a href="<c:url value='/book/initShopCart'/>"><i class="layui-icon">&#xe698;</i></a></div>
       </div>
     </div>
   </div>
@@ -32,7 +41,7 @@
       <div class="headerCon">
         <h1 class="mallLogo">
           <a href="#" title="母婴商城">
-             <img src="../layui-v2.4.5/layui/static/img/logo.jpg" style="width: 8%">
+             <img src="../layui-v2.4.5/layui/static/img/logo.jpg" style="width: 30%;margin-top: 25px;">
           </a>
         </h1>
         <div class="mallSearch">
@@ -64,7 +73,6 @@
     </div>
     <div class="banner-bg w1200">
       <h3>夏季清仓</h3>
-      <p>三折起……</p>
     </div>
     <div class="cart w1200">
       <div class="cart-table-th">
@@ -145,46 +153,34 @@
       </div>
 
 
-      <!-- 模版导入数据 -->
-      <!-- <script type="text/html" id="demo">
-        {{# layui.each(d.infoList,function(index,item){}}
-          <ul class="item-content layui-clear">
-            <li class="th th-chk">
-              <div class="select-all">
-                <div class="cart-checkbox">
-                  <input class="CheckBoxShop check" id="" type="checkbox" num="all" name="select-all" value="true">
-                </div>
-              </div>
-            </li>
-            <li class="th th-item">
-              <div class="item-cont">
-                <a href="javascript:;"><img src="../layui-v2.4.5/layui/static/img/paging_img1.jpg" alt=""></a>
-                <div class="text">
-                  <div class="title">宝宝T恤棉质小衫</div>
-                  <p><span>粉色</span>  <span>130</span>cm</p>
-                </div>
-              </div>
-            </li>
-            <li class="th th-price">
-              <span class="th-su">189.00</span>
-            </li>
-            <li class="th th-amount">
-              <div class="box-btn layui-clear">
-                <div class="less layui-btn">-</div>
-                <input class="Quantity-input" type="" name="" value="1" disabled="disabled">
-                <div class="add layui-btn">+</div>
-              </div>
-            </li>
-            <li class="th th-sum">
-              <span class="sum">189.00</span>
-            </li>
-            <li class="th th-op">
-              <span class="dele-btn">删除</span>
-            </li>
-          </ul>
-        {{# });}}
-      </script> -->
-
+    
+      
+	<div class="layui-form-item" style="margin-bottom: 0px;">
+		<label class="layui-form-label">收货地址</label>
+		<div class="layui-input-block" style="width: 576px;">
+			<input type="text" name="shAddress" lay-verify="author"
+				autocomplete="off" class="layui-input" style="width: 55.5%" id="shdz">
+			 <span id="clearAuthor" class="close"><i class="layui-icon layui-icon-close-fill"></i></span>
+		</div>
+	</div>
+	
+	<div class="layui-form-item" style="margin-bottom: 0px;">
+		<label class="layui-form-label">收货人</label>
+		<div class="layui-input-block" style="width: 576px;">
+			<input type="text" name="shr" lay-verify="author"
+				autocomplete="off" class="layui-input" style="width: 55.5%" id="shdz">
+			 <span id="clearAuthor" class="close"><i class="layui-icon layui-icon-close-fill"></i></span>
+		</div>
+	</div>
+	
+	<div class="layui-form-item" style="margin-bottom: 0px;">
+		<label class="layui-form-label">联系方式</label>
+		<div class="layui-input-block" style="width: 576px;">
+			<input type="text" name="phoneNumber" lay-verify="author"
+				autocomplete="off" class="layui-input" style="width: 55.5%" id="shdz">
+			 <span id="clearAuthor" class="close"><i class="layui-icon layui-icon-close-fill"></i></span>
+		</div>
+	</div>
 
       <div class="FloatBarHolder layui-clear">
         <div class="th th-chk">
