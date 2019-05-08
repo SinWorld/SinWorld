@@ -5,7 +5,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>零度空间</title>
+  <title>异度空间</title>
   <link rel="stylesheet" href="../layui-v2.4.5/layui/css/layui.css">
   <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
   <%@page isELIgnored="false" %>

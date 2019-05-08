@@ -155,14 +155,14 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   ,laydate = layui.laydate;
   form.render();
   querySheng();
-  layer.open({
+  /*layer.open({
   	type:2,
   	title:'12',
   	area: ['50%','60%'],
   	move:false,
   	resize:false,
   	content:['https://www.baidu.com','no']
-  });
+  });*/
   //日期
   laydate.render({
     elem: '#date'
@@ -229,6 +229,8 @@ function querySheng() {
 				}
 			});
 	});
+	
+	
 	
  	//用户名清除
    	$('#clearUserName').click(function(){

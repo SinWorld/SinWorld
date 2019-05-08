@@ -9,7 +9,7 @@ import com.hmp.userInforMation.entity.UserInforMation;
 
 public interface UserService {
 	// 新增用户
-	public void addUser(UserInforMation user);
+	public void addUser(@Param("user")UserInforMation user);
 
 	// 用户登录模块
 	public UserInforMation login(String userName, String password);

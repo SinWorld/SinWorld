@@ -12,7 +12,6 @@
 <script type="text/javascript" src="../layui-v2.4.5/layui/layui.js"></script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@page isELIgnored="false"%>
-<script type="text/javascript" src="../layui-v2.4.5/layui/layui.js"></script>
 <style type="text/css">
 .pointer {
 	cursor: pointer;
@@ -20,54 +19,16 @@
 </style>
 </head>
 <body id="list-cont">
-	<div class="site-nav-bg">
-		<div class="site-nav w1200">
-			<p class="sn-back-home">
-				<i class="layui-icon layui-icon-home"></i> <a
-					href='<c:url value="/book/initIndex"/>'>首页</a>
-			</p>
-			<div class="sn-quick-menu">
-				<div class="login">
-					<a href="">${userName}</a>
-				</div>
-				<div class="sp-cart">
-					<a href="<c:url value='/book/initShopCart'/>"><i class="layui-icon">&#xe698;</i></a>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-	<div class="header">
-		<div class="headerLayout w1200">
-			<div class="headerCon">
-				<h1 class="mallLogo">
-					<a href="#" title="图书商城"> <img
-						src="../layui-v2.4.5/layui/static/img/logo.jpg" style="width: 30%;margin-top: 25px;">
-					</a>
-				</h1>
-				<div class="mallSearch">
-					<form action="" class="layui-form" novalidate>
-						<input type="text" name="title" required lay-verify="required"
-							autocomplete="off" class="layui-input" placeholder="请输入需要的商品" id="productName">
-						<button class="layui-btn" lay-submit lay-filter="formDemo" type="button" onclick="queryBookByBookName()">
-							<i class="layui-icon layui-icon-search"></i>
-						</button>
-						<input type="hidden" name="" value="">
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
+	<%@ include file="head.jsp"%>
+	
 	<div class="content">
 		<div class="main-nav">
 			<div class="inner-cont0">
 				<div class="inner-cont1 w1200">
 					<div class="inner-cont2">
-						<a href="commodity.html" class="active">所有商品</a> <a
-							href="buytoday.html">今日团购</a> <a href="information.html">商城资讯</a>
+						<a href='<c:url value="/book/allProduct"/>' class="active">所有商品</a>
+						<a href='<c:url value="/book/buyTodady"/>'>今日团购</a> 
+						<a href="information.html">商城资讯</a>
 						<a href="about.html">关于我们</a>
 					</div>
 				</div>
@@ -76,12 +37,14 @@
 		<div class="category-con">
 			<div class="category-inner-con w1200">
 				<div class="category-type">
-				<h3>全部分类<i class="layui-icon" id="fl">&#xe61a;</i></h3>
-					
+					<h3>
+						全部分类<i class="layui-icon layui-icon-down" id="fl"></i>
+					</h3>
+					<input type="hidden" value="true" id="flag">
 				</div>
 				<div class="category-tab-content" id="book_type">
 					<div class="nav-con">
-						<ul class="normal-nav layui-clear" style="height: 480px;"
+						<ul class="normal-nav layui-clear" style="height:480px;top:-53px;"
 							id="types">
 
 						</ul>
@@ -91,7 +54,7 @@
 			<div class="category-banner">
 				<div class="w1200">
 					<img src="../layui-v2.4.5/layui/static/img/background.JPG"
-						style="width: 100%; height: 480px;">
+						style="width: 100%; height: 480px;margin-top: -54px;">
 				</div>
 			</div>
 		</div>
@@ -281,7 +244,7 @@
 	            <span>￥${list.book_price}</span>
 	          </div> --%>
 					<div id="product"></div>
-					<br/>
+					<br />
 					<div id="demo7" style="margin-top: 50%"></div>
 					<fieldset class="layui-elem-field layui-field-title"
 						style="margin-top: 30px;"></fieldset>
@@ -365,7 +328,7 @@ layui.config({
    	    });
        }
      }); 
-
+		$('#types').hide();
 });
 
 function initBookDetails(bookId){
@@ -375,7 +338,7 @@ function initBookDetails(bookId){
 //初始化图书种类
 function bookType(){
 	$.ajax({
-	        url:"<c:url value='/book/bookType'/>",
+	        url:"<c:url value='/book/bookTypes'/>",
 	        type:"post",
 	        dataType:'json',
 	        async:false,
@@ -383,7 +346,7 @@ function bookType(){
 				alert("出错");
 			},
 	        success:function (data) {
-	        	for(var i=0;i<data.length;i++){
+	        	for(var i=0;i<data.length-1;i++){
 	        		$('#types').append( "<li class='nav-item'>"
 	               +"<div class='title'>"+data[i].codelist_mean+"</div>"
 	               +"<p style='padding-left: 23px;'><a href='${pageContext.request.contextPath}/book/bookType?typeId="+data[i].codelist_code+"'>"+data[i].codelist_mean+"</a></p>"
@@ -395,7 +358,20 @@ function bookType(){
 
 
 $(".category-type").click(function(){
-	$("#book_type").fadeToggle("slow");
+	 var flag= $('#flag').val();
+	  if(flag=="true"){
+		  $('#fl').removeClass("layui-icon layui-icon-up");
+		  $('#fl').addClass("layui-icon layui-icon layui-icon-down");
+		  $('#types').show();
+		  $('#flag').val(false);
+	  }else{
+		  $('#fl').removeClass("layui-icon layui-icon-down ");
+		  $('#fl').addClass("layui-icon layui-icon-up");
+		  $('#types').hide();
+		  $('#flag').val(true);
+	  }
+	 // $('#types').show();
+	//$("#book_type").fadeToggle("slow");
 });
 
 function GetRequest() {

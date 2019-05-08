@@ -108,12 +108,12 @@ var car = {
         }
         
       }
-        checkAll[0].checked = true;
-        checkAll[0].onclick();
+       checkAll[0].checked = true;
+       checkAll[0].onclick();
   	  }  	
 
   }
 
 
   exports('car',car)
-}); 
+});

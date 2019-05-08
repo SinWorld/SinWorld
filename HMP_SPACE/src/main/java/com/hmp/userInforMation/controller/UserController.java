@@ -77,7 +77,7 @@ public class UserController {
 	}
 
 	// 用户注册
-	@SuppressWarnings("deprecation")
+	
 	@RequestMapping("/addUser")
 	public ModelAndView addUser(UserInforMation user, ModelAndView mv) {
 		user.setUser_status(1);
@@ -87,6 +87,7 @@ public class UserController {
 		// 计算用户年龄
 		Date nowTime = new Date();
 		user.setUser_age(nowTime.getYear() - user.getUser_brithday().getYear());
+		user.setUser_code(null);
 		userService.addUser(user);
 
 		mv.setViewName("redirect:login");

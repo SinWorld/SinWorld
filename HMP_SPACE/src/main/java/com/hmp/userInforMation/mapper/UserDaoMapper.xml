@@ -8,7 +8,7 @@
 	<insert id="addUser" parameterType="UserInforMation">
 		insert into hmp_user
 		(USER_ID,USER_NAME,USER_PASSWORD,USER_STATUS,USER_SEX,USER_AGE,USER_PHONE,USER_EMAIL,USER_PROVINCE,USER_CITY,USER_DETAIL_ADDRESS,USER_IDCARD,USER_BRITHDAY,USER_CODE,USER_UIMAGE)
-		values(seq_user_id.nextval,#{user_name},#{user_password},#{user_status},#{user_sex},#{user_age},#{user_phone},#{user_email},#{user_province},#{user_city},#{user_detail_address},#{user_idCard},#{user_brithday},#{user_code},#{user_uImage})
+		values(seq_user_id.nextval,#{user_name},#{user_password},#{user_status},#{user_sex},#{user_age},#{user_phone},#{user_email},#{user_province},#{user_city},#{user_detail_address},#{user_idCard},#{user_brithday},#{user_code,jdbcType=VARCHAR},#{user_uImage})
 	</insert>
 
 	<!--用户登陆 -->

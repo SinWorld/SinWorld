@@ -4,11 +4,16 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.hmp.bookManagement.dao.BookDao;
 import com.hmp.bookManagement.entity.BookInforMation;
+import com.hmp.bookManagement.entity.HMP_Address;
+import com.hmp.bookManagement.entity.HMP_Book_Cart;
+import com.hmp.bookManagement.entity.HMP_Book_buy;
+import com.hmp.bookManagement.entity.HMP_Form_Message;
 import com.hmp.bookManagement.service.inter.BookService;
 import com.hmp.utils.QueryVo;
 
@@ -46,13 +51,108 @@ public class BookServiceImpl implements BookService {
 	public List<BookInforMation> queryBookByType(QueryVo vo) {
 		return bookDao.queryBookByType(vo);
 	}
-	//根据书籍种类检索总条数
+
+	// 根据书籍种类检索总条数
 	public Integer totalPageBybookType(Integer typeId) {
 		return bookDao.totalPageBybookType(typeId);
 	}
-	//根据书籍名称检索总条数
+
+	// 根据书籍名称检索总条数
 	public Integer totalPageBybookName(String bookName) {
 		return bookDao.totalPageBybookName(bookName);
 	}
 
+	// 添加图书至购物车
+	public void addCart(HMP_Book_Cart cart) {
+		bookDao.addCart(cart);
+
+	}
+
+	// 根据用户主键去查询当前用户所属购物车中的商品
+	public List<HMP_Book_Cart> queryCarts(Integer userId) {
+		return bookDao.queryCarts(userId);
+	}
+
+	// 根据书籍、用户主键查询购物车中该类书籍的总数量
+	public Integer totalCartByBookId(Integer bookId, Integer userId) {
+		return bookDao.totalCartByBookId(bookId, userId);
+	}
+
+	// 删除购物项逻辑删除
+	public void deleteCartByBookId(Integer bookId, boolean flag) {
+		bookDao.deleteCartByBookId(bookId, flag);
+
+	}
+
+	// 批量删除购物项 逻辑删除
+	public void batchDeleteCart(Integer userId, Integer bookId, boolean flag) {
+		bookDao.batchDeleteCart(userId, bookId, flag);
+	}
+
+	// 支付时新增地址
+	public void addHMP_ADDRESS(HMP_Address hmp_address) {
+		bookDao.addHMP_ADDRESS(hmp_address);
+	}
+
+	// 支付时新增购物订单
+	public void addHMP_Form_Message(HMP_Form_Message hmp_form_message) {
+		bookDao.addHMP_Form_Message(hmp_form_message);
+	}
+
+	// 支付时生成购物项信息
+	public void addHMP_Book_Buy(HMP_Book_buy buy) {
+		bookDao.addHMP_Book_Buy(buy);
+	}
+
+	// 查询刚新增收货地址的序列值
+	public Integer queryAddressId() {
+		return bookDao.queryAddressId();
+	}
+
+	// 查询刚新增购物订单的序列值
+	public Integer queryShopMessageId() {
+		return bookDao.queryShopMessageId();
+	}
+
+	// 支付后将购物车中已支付的商品修改为已支付
+	public void editShopCart(Integer userId, Integer bookId, boolean flag) {
+		bookDao.editShopCart(userId, bookId, flag);
+	}
+	//加载当前用户所购买的订单
+	public JSONArray ShopCartList(Integer userId) {
+		return bookDao.ShopCartList(userId);
+	}
+	//加载当前用户所购买的订单数量
+	public Integer ShopCartCount(Integer userId) {
+		return bookDao.ShopCartCount(userId);
+	}
+	
+	// 点击订单详情展现购物项信息
+	public List<HMP_Book_buy> queryBuyByMessageId(Integer messageId) {
+		return bookDao.queryBuyByMessageId(messageId);
+	}
+
+	public HMP_Address queryAddressById(Integer addressId) {
+		return bookDao.queryAddressById(addressId);
+	}
+	//收藏图书
+	public void isCollection(BookInforMation book) {
+		bookDao.isCollection(book);
+	}
+	//我的收藏
+	public List<BookInforMation> myCollection(Integer userId, boolean flag) {
+		return bookDao.myCollection(userId, flag);
+	}
+	//查询当前用户添加至购物车中商品的数量
+	public Integer CartCount(Integer userId) {
+		return bookDao.CartCount(userId);
+	}
+	//查询当前用户所填写的收货地址
+	public JSONArray queryHmpAddress(Integer userId) {
+		return bookDao.queryHmpAddress(userId);
+	}
+	//查询当前用户所填写的收货地址数量
+	public Integer queryHmpAddressCount(Integer userId) {
+		return bookDao.queryHmpAddressCount(userId);
+	}
 }

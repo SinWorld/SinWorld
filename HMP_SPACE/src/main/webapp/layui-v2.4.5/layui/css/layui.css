@@ -2879,8 +2879,9 @@ a cite {
 }
 
 .layui-table-view .layui-form-radio>i {
-	margin: 0;
+	margin-top: 15px;
 	font-size: 20px
+	
 }
 
 .layui-table-init {

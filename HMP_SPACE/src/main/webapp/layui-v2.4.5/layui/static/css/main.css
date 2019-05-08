@@ -223,7 +223,7 @@ i{font-style: normal;}
 
 
 /*buytoday*/
-.buytoday-content .banner{height: 380px; background: url(../img/tuan_img_banner.jpg) no-repeat; background-size: cover; cursor: pointer;}
+.buytoday-content .banner{height: 380px; background: url(../img/jrtgbanner.jpg) no-repeat; background-size: cover; cursor: pointer;}
 .buytoday-content .product-list-box{background: #f8f8f8; padding-bottom: 50px;}
 .buytoday-content .product-list .tab-title{padding:60px 0 66px 0;}
 .buytoday-content .product-list .tab-title a{line-height: 56px; color: #666666; font-size: 20px; display: inline-block;}
@@ -320,15 +320,15 @@ i{font-style: normal;}
 .shopcart-content .th-op{width: 100px;}
 .shopcart-content .item-content{border:1px solid #ececee; border-bottom: 0; height: 218px; padding:59px 0; box-sizing: border-box; position: relative;}
 .shopcart-content .order-content .th-chk{margin-top: 35px; position: relative; z-index: 2;}
-.shopcart-content .order-content .th-item{position: relative; left: -120px; z-index: 1;}
+.shopcart-content .order-content .th-item{position: relative; left: -44px; z-index: 1;}
 .shopcart-content .order-content .th-amount div.layui-btn,.shopcart-content .order-content .th-amount input{float: left; border:1px solid #e2e2e2; text-align: center; background: #ffffff; margin-left: -1px; color: #999999;}
 .shopcart-content .order-content .th-amount div.layui-btn{width: 28px; height: 38px; padding:0;}
 .shopcart-content .order-content .th-amount input{width: 46px; height: 36px;}
-.shopcart-content .order-content .th-amount .box-btn{padding-left: 52px;}
+.shopcart-content .order-content .th-amount .box-btn{padding-left: 0px;}
 .shopcart-content .order-content .th-sum span{line-height: 24px; color: #ee0000; font-weight: bold; }
 .shopcart-content .order-content .th-op span{display: block; cursor: pointer; line-height: 24px;}
 .shopcart-content .order-content .th-item .item-cont img{float: left; width: 98px; height: 98px;  border:1px solid #ececee; margin-right: 20px;}
-.shopcart-content .order-content .th-item .item-cont .text{text-align: left; line-height: 24px;}
+.shopcart-content .order-content .th-item .item-cont .text{text-align: left; line-height: auto;}
 .shopcart-content .order-content .th-item .item-cont .text .title{color: #333333;}
 .shopcart-content .order-content .th-item .item-cont .text p{color: #888;}
 .shopcart-content .FloatBarHolder{line-height: 78px; border:1px solid #ececee; background: #f5f5f5; position: relative;}

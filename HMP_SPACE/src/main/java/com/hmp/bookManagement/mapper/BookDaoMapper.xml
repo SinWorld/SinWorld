@@ -8,8 +8,8 @@
 
 	<insert id="addBook" parameterType="BookInforMation">
 		insert into hmp_book
-		(BOOK_ID,BOOK_NAME,BOOK_AUTHOR,BOOK_PRESS,BOOK_VERSION,BOOK_TYPE,BOOK_PRICE,BOOK_IMAGE,BOOK_SYNOPSIS)
-		values(seq_book_id.nextval,#{book_name},#{book_author},#{book_press},#{book_version},#{book_type},#{book_price},#{book_image},#{book_synopsis})
+		(BOOK_ID,BOOK_NAME,BOOK_AUTHOR,BOOK_PRESS,BOOK_VERSION,BOOK_TYPE,BOOK_PRICE,BOOK_IMAGE,BOOK_SYNOPSIS,IS_COLLECTION,USER_ID)
+		values(seq_book_id.nextval,#{book_name},#{book_author},#{book_press},#{book_version},#{book_type},#{book_price},#{book_image},#{book_synopsis},#{is_collection},#{user_id})
 	</insert>
 
 	<!--初始化图书种类 -->
@@ -29,8 +29,9 @@
 	</select>
 
 	<!--查询总条数 -->
-	<select id="totalPage" resultType="Integer" >
-		select count(1) from hmp_book
+	<select id="totalPage" resultType="Integer">
+		select count(1) from
+		hmp_book
 	</select>
 
 	<!--分页展现 -->
@@ -38,38 +39,210 @@
 		select * from (select row_.*, rownum rownum_ from (select * from
 		hmp_book order by book_id asc ) row_
 		<where>
-			rownum &lt;=#{size}  and book_name like '%${bookName}%'
-		</where>)
+			rownum &lt;=#{size} and book_name like '%${bookName}%'
+		</where>
+		)
 		<where>
 			rownum_ &gt;=#{page}
 		</where>
 	</select>
-	
-	<!--根据书籍种类检索书籍  -->
+
+	<!--根据书籍种类检索书籍 -->
 	<select id="queryBookByType" parameterType="QueryVo" resultType="BookInforMation">
 		select * from (select row_.*, rownum rownum_ from (select * from
 		hmp_book order by book_id asc ) row_
 		<where>
 			rownum &lt;=#{size} and book_type=#{bookType}
-		</where>)
+		</where>
+		)
 		<where>
-			rownum_ &gt;=#{page} 
+			rownum_ &gt;=#{page}
 		</where>
 	</select>
-	
-	<!--根据书籍种类检索总条数  -->
-	<select id="totalPageBybookType" parameterType="Integer" resultType="Integer">
-		select count(1) from hmp_book b 
+
+	<!--根据书籍种类检索总条数 -->
+	<select id="totalPageBybookType" parameterType="Integer"
+		resultType="Integer">
+		select count(1) from hmp_book b
 		<where>
 			b.book_type=#{typeId}
 		</where>
 	</select>
-	<!--根据书籍名称检索总条数  -->
-	<select id="totalPageBybookName" parameterType="String" resultType="Integer">
-		select count(1) from hmp_book b 
+	<!--根据书籍名称检索总条数 -->
+	<select id="totalPageBybookName" parameterType="String"
+		resultType="Integer">
+		select count(1) from hmp_book b
 		<where>
 			b.book_name like '%${bookName}%'
 		</where>
 	</select>
+
+	<!--添加购物车 -->
+	<insert id="addCart" parameterType="HMP_Book_Cart">
+		insert into hmp_book_collect
+		(BOOK_SHOPPING_ID,USER_ID,BOOK_ID,SHOPPING_TIME,SHIFOUSC,SHIFOUZF)
+		values(seq_book_shopping_id.nextval,#{user_id},#{book_id},#{shopping_time},#{flag},#{iszf})
+	</insert>
+
+	<!--查询当前用户购物车中的所属商品 -->
+	<select id="queryCarts" resultType="HMP_Book_Cart"
+		parameterType="Integer">
+		select * from hmp_book_collect c
+		<where>
+			c.user_id=#{userId} and c.shifousc=0 and c.shifouzf=0
+		</where>
+	</select>
+
+	<!--根据书籍主键,用户主键查询购物车中该类书籍的总数量 -->
+	<select id="totalCartByBookId" resultType="Integer"
+		parameterType="Integer">
+		select count(1) from hmp_book_collect c
+		<where>
+			c.book_id=#{bookId} and c.user_id=#{userId} and c.shifousc=0 and c.shifouzf=0
+		</where>
+	</select>
+
+	<!--删除购物项 逻辑删除 -->
+	<update id="deleteCartByBookId" parameterType="Integer">
+		update hmp_book_collect c
+		<set>
+			<if test="flag==true">c.shiFouSC=1</if>
+			<if test="flag==false">c.shiFouSC=0</if>
+		</set>
+		<where>
+			c.book_id=#{bookId}
+		</where>
+	</update>
+
+	<!--批量删除购物项 逻辑删除 -->
+	<update id="batchDeleteCart" parameterType="Integer">
+		update hmp_book_collect c
+		<set>
+			<if test="flag==true">c.shiFouSC=1</if>
+		</set>
+		<where>
+			c.user_id=#{userId} and c.book_id=#{bookId}
+		</where>
+	</update>
+
+	<!--支付时新增用户地址 -->
+	<insert id="addHMP_ADDRESS" parameterType="HMP_Address">
+		insert into
+		hmp_address(ADDRESS_ID,ADDRESS_NAME,ADDRESS_PHONE,ADDRESS_ADR,USER_ID)
+		values(seq_address_id.nextval,#{address_name},#{address_phone},#{address_adr},#{user_id})
+	</insert>
+
+	<!--支付时生成订单 -->
+	<insert id="addHMP_Form_Message" parameterType="HMP_Form_Message">
+		insert into
+		hmp_form_message(FORM_MESSAGE_ID,USER_ID,CREATE_TIME,INVOLVE_MONEY,IS_BREAK,ORDER_NUMBER)
+		values(seq_form_message_id.nextval,#{user_id},#{create_time},#{involve_money},#{is_break},#{order_number})
+	</insert>
+
+	<!--支付时生成购物项数据 -->
+	<insert id="addHMP_Book_Buy" parameterType="HMP_Book_buy">
+		insert into
+		hmp_book_buy(BOOK_BUY_ID,USER_ID,BOOK_ID,BOOK_BUY_TIME,BOOK_BUY_COUNT,BUY_SUM,FORM_MESSAGE_ID,ADDRESS_ID)
+		values(seq_book_buy_id.nextval,#{user_id},#{book_id},#{book_buy_time},#{book_buy_count},#{buy_sum},#{message_id},#{address_id})
+	</insert>
 	
+	<!--查询刚新增收货地址的序列值 (最大值) -->
+	<select id="queryAddressId" resultType="Integer">
+		 select max(a.address_id) from hmp_address a
+	</select>
+	
+	<!--查询刚新增购物订单的序列值  (最大值)-->
+	<select id="queryShopMessageId" resultType="Integer">
+		 select max(m.form_message_id) from hmp_form_message m
+	</select>
+	
+	<!-- 支付后将购物车中已支付的商品修改为已支付 -->
+	<update id="editShopCart" parameterType="Integer">
+		update hmp_book_collect c
+		<set>
+			<if test="flag==true">c.shifouzf=1</if>
+		</set>
+		<where>
+		  c.user_id=#{user_id} and c.book_id=#{bookId}
+		</where>
+	</update>
+	
+	<!--加载当前用户的订单信息  -->
+	<select id="ShopCartList" resultType="HMP_Form_Message" parameterType="Integer">
+		select * from hmp_form_message m
+		<where>
+			m.user_id=#{userId} and m.is_break=0
+		</where>
+	</select>
+	
+	<!--加载当前用户的订单数量  -->
+	<select id="ShopCartCount" resultType="Integer" parameterType="Integer">
+		select count(1) from hmp_form_message m
+		<where>
+			m.user_id=#{userId} and m.is_break=0
+		</where>
+	</select>
+	
+	<!--点击订单详情展现购物项  -->
+	<select id="queryBuyByMessageId" resultType="HMP_Book_buy" parameterType="Integer">
+		select * from hmp_book_buy b
+		<where>
+			b.form_message_id=#{messageId}
+		</where>
+		
+	</select>
+	
+	<!--根据主键查询唯一的收货地址信息-->
+	<select id="queryAddressById" parameterType="Integer" resultType="HMP_Address">
+		select * from hmp_address a
+		<where>
+			a.address_id=#{addressId}
+		</where>
+	</select>
+	
+	<!--收藏书籍  -->
+	<update id="isCollection" parameterType="BookInforMation">
+		update hmp_book b
+		<set>
+			b.is_collection=#{is_collection},
+			b.user_id=#{user_id}
+		</set>
+		<where>
+			b.book_id=#{book_id}
+		</where>
+	</update>
+	
+	<!--查询我的收藏  -->
+	<select id="myCollection" resultType="BookInforMation" parameterType="Integer">
+		select * from hmp_book b
+		<where>
+			b.user_id=#{userId} and b.is_collection=1
+		</where>
+	</select>
+	
+	<!--查询当前用户添加至购物车中商品的数量  -->
+	<select id="CartCount" resultType="Integer" parameterType="Integer">
+		select count(1) from hmp_book_collect c
+		<where>
+			 c.shifousc=0 and c.shifouzf=0 and c.user_id=#{userId}
+		</where>
+	</select>
+	
+	<!--查询当前用户所填写的收货地址  -->
+	<select id="queryHmpAddress" resultType="HMP_Address" parameterType="Integer">
+		select *  from hmp_address a
+		<where>
+			a.address_id in (select min(a.address_id) from hmp_address a group by a.address_adr) and a.user_id=#{userId}
+		</where>
+	</select>
+	
+	
+	<!--查询当前用户所填写的收货地址数量 -->
+	<select id="queryHmpAddressCount" resultType="Integer" parameterType="Integer">
+		select count(1) from hmp_address a
+		<where>
+			a.user_id=#{userId}
+		</where>
+	</select>
+
 </mapper>
