@@ -128,8 +128,8 @@
 	<!--支付时新增用户地址 -->
 	<insert id="addHMP_ADDRESS" parameterType="HMP_Address">
 		insert into
-		hmp_address(ADDRESS_ID,ADDRESS_NAME,ADDRESS_PHONE,ADDRESS_ADR,USER_ID)
-		values(seq_address_id.nextval,#{address_name},#{address_phone},#{address_adr},#{user_id})
+		hmp_address(ADDRESS_ID,ADDRESS_NAME,ADDRESS_PHONE,ADDRESS_ADR,USER_ID,DEFAULTADDRESS,SHIFOUSC)
+		values(seq_address_id.nextval,#{address_name},#{address_phone},#{address_adr},#{user_id},#{defaultAddress},#{shiFouSC})
 	</insert>
 
 	<!--支付时生成订单 -->
@@ -166,14 +166,6 @@
 		  c.user_id=#{user_id} and c.book_id=#{bookId}
 		</where>
 	</update>
-	
-	<!--加载当前用户的订单信息  -->
-	<select id="ShopCartList" resultType="HMP_Form_Message" parameterType="Integer">
-		select * from hmp_form_message m
-		<where>
-			m.user_id=#{userId} and m.is_break=0
-		</where>
-	</select>
 	
 	<!--加载当前用户的订单数量  -->
 	<select id="ShopCartCount" resultType="Integer" parameterType="Integer">
@@ -228,21 +220,113 @@
 		</where>
 	</select>
 	
-	<!--查询当前用户所填写的收货地址  -->
-	<select id="queryHmpAddress" resultType="HMP_Address" parameterType="Integer">
-		select *  from hmp_address a
-		<where>
-			a.address_id in (select min(a.address_id) from hmp_address a group by a.address_adr) and a.user_id=#{userId}
-		</where>
+	<!--分页查询当前用户所填写的收货地址  -->
+	<select id="queryHmpAddress" resultType="HMP_Address" parameterType="QueryVo">
+	    select *
+		   from (select row_.*, rownum rownum_
+		           from (select * from hmp_address order by address_id desc) row_
+		          <where>
+		          	rownum &lt;=#{size}
+		            and address_id in (select min(a.address_id)
+		                                 from hmp_address a
+		                                group by a.address_adr)
+		            and user_id=#{userId} and shifousc=0
+		         </where>
+		         )
+		 <where>rownum_ &gt;=#{page}</where>
 	</select>
 	
 	
 	<!--查询当前用户所填写的收货地址数量 -->
 	<select id="queryHmpAddressCount" resultType="Integer" parameterType="Integer">
-		select count(1) from hmp_address a
-		<where>
-			a.user_id=#{userId}
-		</where>
+		select count(1)
+		  from hmp_address a
+		 <where>a.address_id in
+		       (select min(a.address_id) from hmp_address a group by a.address_adr)
+		   and a.user_id =#{userId} and shifousc=0
+		  </where>
 	</select>
 
+	<!-- 购物车页面中当用户点击减少按钮时修改对应购物项数目 -->
+	<select id="queryToUserCart" resultType="Integer" parameterType="Integer">
+		select max(c.book_shopping_id) from hmp_book_collect c
+		<where>
+			c.user_id=#{userId} and c.book_id=#{bookId} and c.shifousc=0 and c.shifouzf=0
+		</where>
+	</select>
+	
+	<!--删除购物车 逻辑删除 -->
+	<update id="deleteCartById" parameterType="Integer">
+		update hmp_book_collect c
+			<set>
+				<if test="flag==true">c.shiFouSC=1</if>
+				<if test="flag==false">c.shiFouSC=0</if>
+			</set>
+			<where>
+				c.book_shopping_id=#{cartId}
+			</where>
+	</update>
+	
+	<!--对订单进行分页查询-->
+	<select id="orderCartem" parameterType="QueryVo" resultType="HMP_Form_Message">
+		select * from (select row_.*, rownum rownum_ from (select * from
+		hmp_form_message order by form_message_id desc ) row_
+		<where>
+			rownum &lt;=#{size}  and user_id=#{userId} 
+		</where>
+		)
+		<where>
+			rownum_ &gt;=#{page}
+		</where>
+	</select>
+	
+	<!--初始化用户的默认地址 -->
+	<update id="defaultAddress" parameterType="Integer">
+		update 	hmp_address a
+		<set>
+			a.defaultaddress=0
+		</set>
+		<where>
+			a.user_id=#{userId} and a.defaultaddress!=0
+		</where>
+	</update>
+	
+	<!--设置用户的默认地址 -->
+	<update id="editDefaultAddress" parameterType="Integer">
+		update 	hmp_address a
+		<set>
+			<if test="flag==true">a.defaultaddress=1</if>
+		</set>
+		<where>
+			a.address_id=#{addressId} 
+		</where>
+	</update>
+	
+	<!--修改用户的收货地址  -->
+	<update id="editAddress" parameterType="HMP_Address">
+		update 	hmp_address 
+		<set>
+			<if test="address_name!=null">address_name=#{address_name},</if>
+			<if test="address_phone!=null">address_phone=#{address_phone},</if>	
+			<if test="address_adr!=null">address_adr=#{address_adr},</if>
+			<if test="user_id!=null">user_id=#{user_id},</if>
+			<if test="defaultAddress!=null">defaultAddress=#{defaultAddress},</if>
+			<if test="shiFouSC!=null">shiFouSC=#{shiFouSC}</if>
+		</set>
+		<where>
+			address_id=#{address_id}
+		</where>
+	</update>
+	
+	<!--删除用户的收货地址  逻辑删除 -->
+	<update id="deleteAddressById" parameterType="Integer">
+		update 	hmp_address a
+		<set>
+			<if test="flag==true">a.shifousc=1</if>
+		</set>
+		<where>
+			a.address_id=#{addressId} 
+		</where>
+	</update>
+	
 </mapper>

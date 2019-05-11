@@ -5,13 +5,14 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.hmp.bookManagement.entity.BookInforMation;
 import com.hmp.bookManagement.entity.HMP_Address;
 import com.hmp.bookManagement.entity.HMP_Book_Cart;
 import com.hmp.bookManagement.entity.HMP_Book_buy;
 import com.hmp.bookManagement.entity.HMP_Form_Message;
 import com.hmp.utils.QueryVo;
+
+
 
 public interface BookDao {
 	// 新增图书
@@ -71,9 +72,6 @@ public interface BookDao {
 	//支付后将购物车中已支付的商品修改为已支付
 	public void editShopCart(@Param("user_id")Integer user_id,@Param("bookId")Integer bookId ,@Param("flag") boolean flag);
 	
-	//加载当前用户所购买的订单
-	public JSONArray ShopCartList(Integer userId);
-	
 	//查询当前用户所购买的订单数量
 	public Integer ShopCartCount(Integer userId);
 	
@@ -92,10 +90,30 @@ public interface BookDao {
 	//查询当前用户添加至购物车中商品的数量
 	public Integer CartCount(@Param("userId")Integer userId);
 	
-	//查询当前用户所填写的收货地址
-	public JSONArray queryHmpAddress(@Param("userId")Integer userId);
+	//分页查询当前用户所填写的收货地址
+	public List<HMP_Address> queryHmpAddress(QueryVo vo);
 	
 	//查询当前用户所填写的收货地址数量
 	public Integer queryHmpAddressCount(@Param("userId")Integer userId);
 	
+	//购物车页面中当用户点击减少按钮时修改对应购物项数目
+	public Integer queryToUserCart(@Param("userId")Integer userId,@Param("bookId")Integer bookId);
+	
+	//对购物车进行逻辑删除
+	public void deleteCartById(@Param("cartId")Integer cartId,@Param("flag") boolean flag);
+	
+	//对订单进行分页查询
+	public List<HMP_Form_Message> orderCartem(QueryVo vo);
+	
+	//初始化用户的默认地址
+	public void defaultAddress(@Param("userId")Integer userId);
+	
+	//设置用户的默认地址
+	public void editDefaultAddress(@Param("addressId")Integer address_id,@Param("flag")boolean flag);
+	
+	//修改用户的地址
+	public void editAddress(HMP_Address address);
+	
+	//删除用户地址(逻辑删除)
+	public void deleteAddressById(@Param("addressId")Integer address_id,@Param("flag")boolean flag);
 }

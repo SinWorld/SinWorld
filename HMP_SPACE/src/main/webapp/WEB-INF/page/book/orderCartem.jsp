@@ -25,10 +25,10 @@ layui.use('table', function(){
     elem: '#test'
     ,url:url+"book/ShopCartList"
     ,cols: [[
-       {field:'index', width:"20%", title: '序号', sort: true,type:'numbers'}
+       {field:'index', width:"10%", title: '序号', sort: true,type:'numbers'}
        ,{field:'order_number', width:"40%",align:'center', title: '订单号'}
        ,{field:'create_time', width:"20%", align:'center', title: '下单时间'}
-       ,{field:'involve_money', width:"10%",align:'center', title: '总金额'}
+       ,{field:'involve_money', width:"20%",align:'center', title: '总金额'}
        ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:"10%",align:'center'}
     ]]
     ,page: true

@@ -72,9 +72,6 @@ public interface BookService {
 	public void editShopCart(@Param("user_id") Integer user_id, @Param("bookId") Integer bookId,
 			@Param("flag") boolean flag);
 
-	// 加载当前用户所购买的订单
-	public JSONArray ShopCartList(Integer userId);
-
 	// 查询当前用户所购买的订单数量
 	public Integer ShopCartCount(Integer userId);
 
@@ -89,13 +86,34 @@ public interface BookService {
 
 	// 我的收藏
 	public List<BookInforMation> myCollection(Integer userId, boolean flag);
+
+	// 查询当前用户添加至购物车中商品的数量
+	public Integer CartCount(@Param("userId") Integer userId);
+
+	// 分页查询当前用户所填写的收货地址
+	public List<HMP_Address> queryHmpAddress(QueryVo vo);
+
+	// 查询当前用户所填写的收货地址数量
+	public Integer queryHmpAddressCount(@Param("userId") Integer userId);
+
+	// 购物车页面中当用户点击减少按钮时修改对应购物项数目
+	public Integer queryToUserCart(@Param("userId") Integer userId, @Param("bookId") Integer bookId);
+
+	//对购物车进行逻辑删除
+	public void deleteCartById(@Param("cartId")Integer cartId,@Param("flag") boolean flag);
 	
-	//查询当前用户添加至购物车中商品的数量
-	public Integer CartCount(@Param("userId")Integer userId);
+	//对订单进行分页查询
+	public List<HMP_Form_Message> orderCartem(QueryVo vo);
 	
-	//查询当前用户所填写的收货地址
-	public JSONArray queryHmpAddress(@Param("userId")Integer userId);
+	//初始化用户的默认地址
+	public void defaultAddress(@Param("userId")Integer userId);
 	
-	//查询当前用户所填写的收货地址数量
-	public Integer queryHmpAddressCount(@Param("userId")Integer userId);
+	//设置用户的默认地址
+	public void editDefaultAddress(@Param("addressId")Integer address_id,@Param("flag")boolean flag);
+	
+	//编辑用户的收货地址
+	public void editAddress(HMP_Address address);
+	
+	//删除用户地址(逻辑删除)
+	public void deleteAddressById(@Param("addressId")Integer address_id,@Param("flag")boolean flag);
 }

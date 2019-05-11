@@ -118,15 +118,12 @@ public class BookServiceImpl implements BookService {
 	public void editShopCart(Integer userId, Integer bookId, boolean flag) {
 		bookDao.editShopCart(userId, bookId, flag);
 	}
-	//加载当前用户所购买的订单
-	public JSONArray ShopCartList(Integer userId) {
-		return bookDao.ShopCartList(userId);
-	}
-	//加载当前用户所购买的订单数量
+
+	// 加载当前用户所购买的订单数量
 	public Integer ShopCartCount(Integer userId) {
 		return bookDao.ShopCartCount(userId);
 	}
-	
+
 	// 点击订单详情展现购物项信息
 	public List<HMP_Book_buy> queryBuyByMessageId(Integer messageId) {
 		return bookDao.queryBuyByMessageId(messageId);
@@ -135,24 +132,60 @@ public class BookServiceImpl implements BookService {
 	public HMP_Address queryAddressById(Integer addressId) {
 		return bookDao.queryAddressById(addressId);
 	}
-	//收藏图书
+
+	// 收藏图书
 	public void isCollection(BookInforMation book) {
 		bookDao.isCollection(book);
 	}
-	//我的收藏
+
+	// 我的收藏
 	public List<BookInforMation> myCollection(Integer userId, boolean flag) {
 		return bookDao.myCollection(userId, flag);
 	}
-	//查询当前用户添加至购物车中商品的数量
+
+	// 查询当前用户添加至购物车中商品的数量
 	public Integer CartCount(Integer userId) {
 		return bookDao.CartCount(userId);
 	}
-	//查询当前用户所填写的收货地址
-	public JSONArray queryHmpAddress(Integer userId) {
-		return bookDao.queryHmpAddress(userId);
+
+	//分页查询当前用户所填写的收货地址
+	public List<HMP_Address> queryHmpAddress(QueryVo vo) {
+		return bookDao.queryHmpAddress(vo);
 	}
-	//查询当前用户所填写的收货地址数量
+
+	// 查询当前用户所填写的收货地址数量
 	public Integer queryHmpAddressCount(Integer userId) {
 		return bookDao.queryHmpAddressCount(userId);
 	}
+
+	// 购物车页面中当用户点击减少按钮时修改对应购物项数目
+	public Integer queryToUserCart(Integer userId, Integer bookId) {
+		return bookDao.queryToUserCart(userId, bookId);
+	}
+
+	// 对购物车进行逻辑删除
+	public void deleteCartById(Integer cartId, boolean flag) {
+		bookDao.deleteCartById(cartId, flag);
+	}
+	//对订单进行分页查询
+	public List<HMP_Form_Message> orderCartem(QueryVo vo) {
+		return bookDao.orderCartem(vo);
+	}
+	//初始化用户的默认地址
+	public void defaultAddress(Integer userId) {
+		bookDao.defaultAddress(userId);
+	}
+	//修改用户地址
+	public void editAddress(HMP_Address address) {
+		bookDao.editAddress(address);
+	}
+	//设置用户的默认地址
+	public void editDefaultAddress(Integer address_id, boolean flag) {
+		bookDao.editDefaultAddress(address_id, flag);
+	}
+	//刪除用戶地址(逻辑删除)
+	public void deleteAddressById(Integer address_id, boolean flag) {
+		bookDao.deleteAddressById(address_id, flag);
+	}
+
 }

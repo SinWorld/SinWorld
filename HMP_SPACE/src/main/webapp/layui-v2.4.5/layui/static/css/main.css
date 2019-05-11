@@ -324,7 +324,7 @@ i{font-style: normal;}
 .shopcart-content .order-content .th-amount div.layui-btn,.shopcart-content .order-content .th-amount input{float: left; border:1px solid #e2e2e2; text-align: center; background: #ffffff; margin-left: -1px; color: #999999;}
 .shopcart-content .order-content .th-amount div.layui-btn{width: 28px; height: 38px; padding:0;}
 .shopcart-content .order-content .th-amount input{width: 46px; height: 36px;}
-.shopcart-content .order-content .th-amount .box-btn{padding-left: 0px;}
+.shopcart-content .order-content .th-amount .box-btn{padding-left: 25px;}
 .shopcart-content .order-content .th-sum span{line-height: 24px; color: #ee0000; font-weight: bold; }
 .shopcart-content .order-content .th-op span{display: block; cursor: pointer; line-height: 24px;}
 .shopcart-content .order-content .th-item .item-cont img{float: left; width: 98px; height: 98px;  border:1px solid #ececee; margin-right: 20px;}

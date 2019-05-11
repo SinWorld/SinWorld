@@ -11,6 +11,16 @@ public class QueryVo {
 	private Integer bookType;
 	// 书籍名称
 	private String bookName;
+	//用户主键
+	private Integer userId;
+	
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
 	public String getBookName() {
 		return bookName;

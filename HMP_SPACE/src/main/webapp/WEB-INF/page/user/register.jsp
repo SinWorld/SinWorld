@@ -10,7 +10,6 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>注册页</title>
 <link rel="stylesheet" href="../layui-v2.4.5/layui/css/layui.css">
-<link rel="stylesheet" href="//res.layui.com/layui/dist/css/layui.css"  media="all">
 <script src="../jquery/jquery-3.3.1.js"></script>
 <style>
 	.close{
@@ -28,8 +27,7 @@
 		<header class="layui-elip"
 			style="width: 95%;margin-top:50px;text-align:center;font-size:40px;">注册</header>
 	</div>
-	<div
-		style="margin-top: 11px; margin-left: auto; margin-right: 300px; width: 800px;">
+	<div style="margin-top: 11px; margin-left: auto; margin-right: 300px; width: 800px;">
 		<form class="layui-form" action="<c:url value='/user/addUser'/>" method="post" enctype="multipart/form-data">
 			<div class="layui-form-item" style="margin-bottom: 0px;">
 				<label class="layui-form-label">用户名</label>

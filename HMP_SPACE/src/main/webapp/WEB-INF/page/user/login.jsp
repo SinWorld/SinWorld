@@ -43,12 +43,12 @@
 				<button type="button" class="layui-btn" id="login">登录</button>
 			</div>
 			<hr />
-			<!--   <div class="layui-input-inline">
+			 <div class="layui-input-inline">
             <button type="button" class="layui-btn layui-btn-primary">QQ登录</button>
         </div>
         <div class="layui-input-inline">
             <button type="button" class="layui-btn layui-btn-normal">微信登录</button>
-        </div> -->
+        </div> 
 			<p>
 				<a href='<c:url value="/user/register"/>' class="fl">立即注册</a> <a
 					href='<c:url value="/user/forgotPassword"/>' class="fr">忘记密码？</a>

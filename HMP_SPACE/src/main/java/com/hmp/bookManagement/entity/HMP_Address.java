@@ -12,6 +12,24 @@ public class HMP_Address {
 	private String address_phone;// 联系方式
 	private String address_adr;// 收货地址
 	private Integer user_id;// 用户主键
+	private Boolean defaultAddress;//是否为默认地址
+	private Boolean shiFouSC;//是否删除
+	
+	public Boolean getDefaultAddress() {
+		return defaultAddress;
+	}
+
+	public void setDefaultAddress(Boolean defaultAddress) {
+		this.defaultAddress = defaultAddress;
+	}
+
+	public Boolean getShiFouSC() {
+		return shiFouSC;
+	}
+
+	public void setShiFouSC(Boolean shiFouSC) {
+		this.shiFouSC = shiFouSC;
+	}
 
 	public String getAddress_phone() {
 		return address_phone;
@@ -55,8 +73,10 @@ public class HMP_Address {
 
 	@Override
 	public String toString() {
-		return "HMP_Address [address_id=" + address_id + ", address_name=" + address_name + ", address_adr="
-				+ address_adr + ", address_phone=" + address_phone + ", user_id=" + user_id + "]";
+		return "HMP_Address [address_id=" + address_id + ", address_name=" + address_name + ", address_phone="
+				+ address_phone + ", address_adr=" + address_adr + ", user_id=" + user_id + ", defaultAddress="
+				+ defaultAddress + ", shiFouSC=" + shiFouSC + "]";
 	}
 
+	
 }

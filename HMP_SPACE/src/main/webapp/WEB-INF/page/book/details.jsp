@@ -94,8 +94,8 @@
 										<span class="cut btn">-</span><input
 											onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
 											onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-											maxlength="4" type="" name="count" value="1"><span
-											class="add btn">+</span>
+											maxlength="4" type="" name="count" value="1">
+											<span class="add btn">+</span>
 									</div>
 								</div>
 							</div>

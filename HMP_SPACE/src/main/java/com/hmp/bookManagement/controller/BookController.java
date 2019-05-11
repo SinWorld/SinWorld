@@ -382,6 +382,8 @@ public class BookController {
 		hmp_address.setAddress_phone(address_phone);
 		hmp_address.setAddress_adr(address_adr);
 		hmp_address.setUser_id(user_id);
+		hmp_address.setDefaultAddress(false);
+		hmp_address.setShiFouSC(false);
 		// 添加
 		bookService.addHMP_ADDRESS(hmp_address);
 	}
@@ -460,22 +462,34 @@ public class BookController {
 	// 加载当前用户的购物订单信息
 	@RequestMapping(value = "/ShopCartList")
 	@ResponseBody
-	public String ShopCartList(HttpServletRequest request) {
+	public String ShopCartList(HttpServletRequest request,Integer page) {
 		HttpSession session = request.getSession();
 		// 获取当前登录系统的用户主键
 		Integer userId = (Integer) session.getAttribute("userId");
-		// 得到jsonArray数组
-		JSONArray jsonArray = bookService.ShopCartList(userId);
+		//new出QueryVo查询对象
+		QueryVo vo=new QueryVo();
+		// 获得Page对象
+		Page<HMP_Form_Message> pages = new Page<HMP_Form_Message>();
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		// 每页数
+		if (vo != null) {
+			pages.setPage((page - 1) * vo.getSize() + 1);
+			vo.setPage((page - 1) * vo.getSize() + 1);
+			vo.setStartRow((pages.getPage()));
+			vo.setSize(page * 10);
+			vo.setUserId(userId);
+		}
+		// 总页数
+		pages.setTotal(bookService.ShopCartCount(userId));
+		pages.setRows(bookService.orderCartem(vo));
 		Gson gson = new Gson();
 		// 得到当前用户所购买的订单数量
 		map.put("code", 0);
 		map.put("msg", "");
 		map.put("count", bookService.ShopCartCount(userId));
-		map.put("data", jsonArray);
+		map.put("data",pages.getRows());
 		String json = gson.toJson(map);
 		return json.toString();
-
 	}
 
 	// 点击订单详情展现购物项信息
@@ -575,19 +589,32 @@ public class BookController {
 	// 加载当前用户所填写的所有收货地址
 	@RequestMapping(value = "/myShopAddress")
 	@ResponseBody
-	public String myShopAddress(HttpServletRequest request) {
+	public String myShopAddress(HttpServletRequest request,Integer page) {
 		HttpSession session = request.getSession();
 		// 获取当前登录系统的用户主键
 		Integer userId = (Integer) session.getAttribute("userId");
-		// 得到jsonArray数组
-		JSONArray jsonArray = bookService.queryHmpAddress(userId);
+		//new出QueryVo查询对象
+		QueryVo vo=new QueryVo();
+		// 获得Page对象
+		Page<HMP_Address> pages = new Page<HMP_Address>();
+		// 每页数
+		if (vo != null) {
+			pages.setPage((page - 1) * vo.getSize() + 1);
+			vo.setPage((page - 1) * vo.getSize() + 1);
+			vo.setStartRow((pages.getPage()));
+			vo.setSize(page * 10);
+			vo.setUserId(userId);
+		}
+		// 总页数
+		pages.setTotal(bookService.queryHmpAddressCount(userId));
+		pages.setRows(bookService.queryHmpAddress(vo));
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		// 得到当前用户所购买的订单数量
 		map.put("code", 0);
 		map.put("msg", "");
 		map.put("count", bookService.queryHmpAddressCount(userId));
-		map.put("data", jsonArray);
+		map.put("data", pages.getRows());
 		String json = gson.toJson(map);
 		return json.toString();
 
@@ -611,4 +638,96 @@ public class BookController {
 		count(request, model);
 		return "book/buyToday";
 	}
+	
+	
+		// 动态在购物车中添加购物项
+		@RequestMapping(value = "/addShopCart")
+		@ResponseBody
+		public String addShopCart(@RequestParam Integer bookId,HttpServletRequest request) {
+			JSONObject jsonObject=new JSONObject();
+			HttpSession session = request.getSession();
+			// 获取当前登录系统的用户主键
+			Integer userId = (Integer) session.getAttribute("userId");
+			//new出购物车对象
+			HMP_Book_Cart cart=new HMP_Book_Cart();
+			//为其属性赋值
+			cart.setUser_id(userId);
+			cart.setBook_id(bookId);
+			Date nowTime=new Date();
+			cart.setShopping_time(nowTime);
+			cart.setFlag(false);
+			cart.setIszf(false);
+			//添加至购物车
+			bookService.addCart(cart);
+			jsonObject.put("flag", "success");
+			return jsonObject.toJSONString();
+		}
+		
+		// 动态在购物车中删除购物项
+		@RequestMapping(value = "/lessShopCart")
+		@ResponseBody
+		public String lessShopCart(@RequestParam Integer bookId,HttpServletRequest request) {
+			JSONObject jsonObject=new JSONObject();
+			HttpSession session = request.getSession();
+			// 获取当前登录系统的用户主键
+			Integer userId = (Integer) session.getAttribute("userId");
+			//查询出当前该类购物项最大主键值
+			Integer cartId = bookService.queryToUserCart(userId, bookId);
+			boolean flag=true;
+			//对购物车进行修改
+			bookService.deleteCartById(cartId,flag);
+			jsonObject.put("flag", "success");
+			return jsonObject.toJSONString();
+		}
+		
+		//设为默认地址
+		@RequestMapping(value = "/defaultAddress")
+		@ResponseBody
+		public String defaultAddress(@RequestParam Integer addressId,HttpServletRequest request) {
+			JSONObject jsonObject=new JSONObject();
+			HttpSession session = request.getSession();
+			// 获取当前登录系统的用户主键
+			Integer userId = (Integer) session.getAttribute("userId");
+			//初始化用户的默认地址
+			bookService.defaultAddress(userId);
+			//设置该地址默认地址为true
+			boolean flag=true;
+			bookService.editDefaultAddress(addressId, flag);
+			jsonObject.put("flag", "success");
+			return jsonObject.toJSONString();
+		}
+		
+		//跳转至修改收货地址页面
+		@RequestMapping(value = "/initEditAddress")
+		public String initEditAddress(@RequestParam Integer addressId,Model model) {
+			//根据地址主键查询地址对象
+			HMP_Address address = bookService.queryAddressById(addressId);
+			model.addAttribute("address", address);
+			return "book/editAddress";
+		}
+		
+		//修改用户收货地址
+		@RequestMapping(value = "/editAddress")
+		public String editAddress(HMP_Address address,Model model,HttpServletRequest request) {
+			HttpSession session = request.getSession();
+			// 获取当前登录系统的用户主键
+			Integer userId = (Integer) session.getAttribute("userId");
+			//修改用户收货地址
+			address.setDefaultAddress(false);
+			address.setShiFouSC(false);
+			address.setUser_id(userId);
+			bookService.editAddress(address);
+			boolean flag=true;
+			model.addAttribute("flag", flag);
+			return "book/editAddress";
+		}
+		
+		//删除用户地址 逻辑删除
+		@RequestMapping(value = "/deleteAddress")
+		public ModelAndView deleteAddress(@RequestParam Integer addressId,ModelAndView mv) {
+			boolean flag=true;
+			bookService.deleteAddressById(addressId, flag);
+			mv.setViewName("redirect:initShopCart");
+			return mv;
+		}
 }
