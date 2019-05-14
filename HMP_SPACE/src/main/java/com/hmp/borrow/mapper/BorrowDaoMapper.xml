@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hmp.borrow.dao.BorrowDao">
+	<!-- 定义缓存 一般是一级缓存，如果用同一个sqlsession 那么相同查询直接会从缓存中查找 <cache size="1024" flushInterval="60000" 
+		eviction="LRU" readOnly="false"></cache> -->
+	
+	<!--向租借明细中新增数据  -->
+	<insert id="addBorrowDetail" parameterType="HMP_Borrow_Detail">
+		insert into hmp_borrow_detail 
+		(FBORROW_DETAIL_ID,BOOK_ID,IS_RETURN,BORROW_TIME,APPOINT_RETURN_TIME,REALITY_RETURN_TIME,USER_ID)
+		values(seq_borrow_detail_id.nextval,#{book_id},#{is_return},#{borrow_time},#{appoint_return_time},#{reality_return_time,jdbcType=DATE},#{user_id})
+	</insert>
+	
+	<!--从数据库中检索不同的租借时间  -->
+	<select id="queryBorrowTime" resultType="String" parameterType="Integer">
+		select distinct d.borrow_time from hmp_borrow_detail d
+		<where>
+			d.user_id=#{userId} and d.is_return=0 and d.reality_return_time is null
+		</where>
+	</select>
+	
+	<!--从数据库中检索不同租借时间的数量 -->
+	<select id="queryBorrowCount" resultType="Integer" parameterType="Integer">
+		select count(1) from hmp_borrow_detail d
+		<where>
+			d.user_id=#{userId} and d.is_return=0 and d.reality_return_time is null 
+			and d.borrow_time = TO_TIMESTAMP(#{borrowTime},'yyyy-MM-dd hh24:mi:ss')
+		</where>
+	</select>
+	
+	<!--检索不同租借时间租借记录 -->
+	<select id="queryBorrowDetailByBorrowTime" resultType="HMP_Borrow_Detail" parameterType="Integer">
+		select * from hmp_borrow_detail d
+		<where>
+			d.user_id=#{userId} and d.is_return=0 and d.reality_return_time is null 
+			and d.borrow_time = TO_TIMESTAMP(#{borrowTime},'yyyy-MM-dd hh24:mi:ss')
+		</where>
+	</select>
+	
+	<!--归还书籍  -->
+	<!-- <update id="editBorrow" parameterType="HMP_Borrow_Detail">
+		update hmp_borrow_detail d
+		<set>
+		<if test="book_id!=null">
+			d.book_id=#{book_id},
+		</if>
+		<if test="is_return==true">
+			d.is_return=1,
+		</if>
+		<if test="user_id!=null">
+			d.user_id=#{user_id},
+		</if>
+		<if test="borrow_time!=null">
+			d.borrow_time=to_date(#{borrow_time},'yyyy-MM-dd hh24:mi:ss'),
+		</if>
+		<if test="appoint_return_time!=null">
+			d.appoint_return_time=to_date(#{appoint_return_time},'yyyy-MM-dd hh24:mi:ss'),
+		</if>
+		<if test="reality_return_time!=null">
+			d.reality_return_time=to_date(#{reality_return_time},'yyyy-MM-dd hh24:mi:ss')
+		</if>
+		</set>
+		<where>
+			d.fborrow_detail_id=#{fborrow_detail_id}
+		</where>
+	</update > -->
+	<update id="editBorrow" parameterType="Integer">
+		update hmp_borrow_detail d
+		<set>
+			d.reality_return_time=to_date(#{returnTime},'yyyy-MM-dd hh24:mi:ss'),
+			d.is_return=1
+		</set>
+		<where>
+			d.fborrow_detail_id=#{fborrow_detail_id}
+		</where>
+	</update>
+	
+	<!--根据主键查询对象  -->
+	<select id="queryDetailById" resultType="HMP_Borrow_Detail" parameterType="Integer" >
+		select * from hmp_borrow_detail d 
+		<where>
+			d.fborrow_detail_id=#{fborrow_detail_id}
+		</where>
+	</select>
+	
+</mapper>

@@ -116,4 +116,7 @@ public interface BookService {
 	
 	//删除用户地址(逻辑删除)
 	public void deleteAddressById(@Param("addressId")Integer address_id,@Param("flag")boolean flag);
+	
+	//我的租借数量
+	public Integer queryMyBorrowCount(@Param("userId")Integer userId);
 }

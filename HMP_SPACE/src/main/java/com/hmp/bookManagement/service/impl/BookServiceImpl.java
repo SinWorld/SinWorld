@@ -187,5 +187,9 @@ public class BookServiceImpl implements BookService {
 	public void deleteAddressById(Integer address_id, boolean flag) {
 		bookDao.deleteAddressById(address_id, flag);
 	}
+	//查询我的租借数量
+	public Integer queryMyBorrowCount(Integer userId) {
+		return bookDao.queryMyBorrowCount(userId);
+	}
 
 }

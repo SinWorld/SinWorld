@@ -43,13 +43,14 @@
      	 	<array>
      	 		<value>classpath*:com/hmp/userInforMation/mapper/*.xml</value>
      	 		<value>classpath*:com/hmp/bookManagement/mapper/*.xml</value>
+     	 		<value>classpath*:com/hmp/borrow/mapper/*.xml</value>
      	 	</array>
      	 </property>
      </bean>
      <!--4:配置扫描Dao接口包,动态实现DAO接口,注入到spring容器-->
      <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
       		<!-- 给出需要扫描的Dao接口-->
-	     <property name="basePackage" value="com.hmp.userInforMation.dao;com.hmp.bookManagement.dao" />
+	     <property name="basePackage" value="com.hmp.userInforMation.dao;com.hmp.bookManagement.dao;com.hmp.borrow.dao" />
          <!--注入SqlSessionFactory-->
          <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
      </bean>

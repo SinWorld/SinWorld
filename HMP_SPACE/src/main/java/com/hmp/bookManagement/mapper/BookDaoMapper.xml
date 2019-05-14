@@ -329,4 +329,14 @@
 		</where>
 	</update>
 	
+	<!--我的租借数量  -->
+	<select id="queryMyBorrowCount" resultType="Integer" parameterType="Integer">
+		select count(1) from hmp_borrow_detail d 
+		<where>
+			d.is_return=0 and d.user_id=#{userId} and d.reality_return_time is null
+		</where>
+	</select>
+	
+	
+	
 </mapper>

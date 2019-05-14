@@ -36,6 +36,8 @@
         </a>
         <input type="hidden" value="${userId}" id="userId">
         <input type="hidden" value="${image}">
+        <input type="hidden" id="ts">
+   		<input type="hidden" value='<c:url value="/"/>' id="url">
         <dl class="layui-nav-child">
           <dd><a onclick="userShow()">基本资料</a></dd>
           <dd><a onclick="securitySetting()">安全设置</a></dd>
@@ -89,10 +91,12 @@
 <script type="text/javascript" src="../jquery/jquery-3.3.1.js"></script>
 <script>
 //JavaScript代码区域
-layui.use('element', function(){
+layui.use(['element','layer'], function(){
   var element = layui.element;
   var $ = layui.$;
+  var layer = layui.layer;
   userInfor();
+  pointOut(layer);
 }); 
 
 function reinitIframe(){
@@ -175,6 +179,59 @@ function userShow(){
 	function bookInitPage(){
 		window.open("<c:url value='/book/initIndex'/>")
 	}
+	
+	//系统检测是否快到时间有未还的书籍并给出提示
+	function pointOut(layer){
+		var ts=$('#ts').val();
+		var url=$('#url').val();
+		$.ajax({
+	        url:"<c:url value='/borrow/pointOut'/>",
+	        type:"post",
+	        dataType:'json',
+	        async:false,
+	        error : function() {
+				alert("出错");
+			},
+	        success:function (data) {
+	        	//取出结果集中所有的借阅主键并拼接在字符串中
+	        	for(var i=0;i<data.myBorrowItems.length;i++){
+	        		//遍历回调函数中的主键数组
+	        		for(var j=0;j<data.myBorrowItems[i].ids.length;j++){
+	        			 if(undefined!=data.myBorrowItems[i].ids[j]){
+		        			 ts=ts+","+data.myBorrowItems[i].ids[j];
+		   				}else{
+		   					ts=data.myBorrowItems[i].ids[j];
+		   				}
+	        		}
+	        	}
+	        	$('#ts').val(ts);
+	        	var tss=$('#ts').val();
+	        	var borrowId=tss.substr(1);
+	        	if(data.myBorrowItems.length!=0){
+	        		layer.open({
+	                    type: 1
+	                    ,offset: 'rb' //具体配置参考：offset参数项
+	                    ,content: '<div style="padding: 20px 33px;">您当前有借阅的书籍即将到期请尽快归还！！！</div>'
+	                    ,btn: '查看'
+	                    ,btnAlign: 'c' //按钮居中
+	                    ,shade: 0 //不显示遮罩
+	                    ,yes: function(){
+	                    	window.open("<c:url value='/borrow/borrowShow'/>?borrowIds="+borrowId)
+	                    	/* layer.open({
+	            	     	  	type:2,
+	            	     	  	title:'我的借阅',
+	            	     	  	area: ['100%','100%'],
+	            	     	  	move:false,
+	            	     	  	resize:false,
+	            	     	  	content:[url+"borrow/borrowShow?borrowIds="+borrowId,'no']
+	                 	  }); */
+	                    }
+        		});
+             }
+	    }
+	});
+}
+	
 </script>
 </body>
 </html>

@@ -126,8 +126,20 @@
 						</c:forEach>
 					</div>
 				</div>
-				
-				<div id="inforMation">
+				<div style="margin-top: 10px;">
+					<span>
+						<button class="layui-btn" id="addNewAddress" type="button">
+						  <i class="layui-icon">&#xe608;</i> 添加新地址
+						</button>
+					</span>
+					<span>
+						<button class="layui-btn layui-btn-normal" id="oldAddress" type="button">
+						  使用已存在地址
+						</button>
+					</span>
+					
+				</div>
+				<div id="inforMation" style="margin-top: 10px;">
 					<div class="layui-form-item" style="margin-bottom: 0px;">
 						<label class="layui-form-label">收货人</label>
 						<div class="layui-input-block" style="width: 576px;">
@@ -247,6 +259,7 @@
     
     //头工具栏事件
     table.on('toolbar(test)', function(obj){
+    	$('#inforMation').show();
       var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
       //声明数组
       var array=new Array();
@@ -357,8 +370,8 @@
 		  $('#inforMation').hide();
 	  }else{
 		  $("#payFor").show();
-		  $('#address').show();
-		  $('#inforMation').show();
+		  $('#address').hide();
+		  $('#inforMation').hide();
 	  }
   }
   
@@ -659,6 +672,21 @@ function payFor(){
 		});
 		
 	});
+	
+	//添加新地址
+	$('#addNewAddress').click(function(){
+		$('#inforMation').show();
+		$('#address').hide();
+		$('#shr').val("");
+		$('#shdz').val("");
+		$('#lxfs').val("");
+	});
+	$('#oldAddress').click(function(){
+		$('#address').show();
+		$('#inforMation').hide();
+	});
+		
+	
 
 </script>
 

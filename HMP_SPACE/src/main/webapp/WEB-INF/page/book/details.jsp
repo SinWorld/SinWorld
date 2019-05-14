@@ -94,7 +94,7 @@
 										<span class="cut btn">-</span><input
 											onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
 											onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-											maxlength="4" type="" name="count" value="1">
+											maxlength="4" type="" name="count" value="1" id="count">
 											<span class="add btn">+</span>
 									</div>
 								</div>
@@ -106,6 +106,10 @@
 									type="button" onclick="addCarts()">
 									<i class="layui-icon layui-icon-cart-simple"></i>加入购物车
 								</button>
+								<button class="layui-btn layui-btn-normal" id="borrow" type="button">
+								  	借阅
+								</button>
+					
 							</div>
 						</form>
 					</div>
@@ -182,6 +186,21 @@
 	
 				}
 			});
+		});
+		
+		//借阅书籍
+		$('#borrow').click(function(){
+			var url = $('#url').val();
+			var bookId=$('#bid').val();
+			var count=$('#count').val();
+			layer.open({
+	     	  	type:2,
+	     	  	title:'借阅书籍',
+	     	  	area: ['30%','65%'],
+	     	  	move:false,
+	     	  	resize:false,
+	     	  	content:[url+'borrow/initBorrowBook?bookId='+bookId+'&count='+count,'no']
+     	  });
 		});
 		
 		// 解决 ie6 select框 问题

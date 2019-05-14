@@ -571,7 +571,7 @@ public class BookController {
 		return mv;
 	}
 
-	// 购物车、我的订单、我的收藏 数量
+	// 购物车、我的订单、我的收藏、我的租借 数量
 	public void count(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		Integer userId = (Integer) session.getAttribute("userId");
@@ -581,9 +581,12 @@ public class BookController {
 		Integer myOrderCount = bookService.ShopCartCount(userId);
 		// 我的收藏数量
 		Integer myCollectionCount = bookService.myCollection(userId, true).size();
+		//我的收藏数量
+		Integer borrowCount = bookService.queryMyBorrowCount(userId);
 		model.addAttribute("cartCount", cartCount);
 		model.addAttribute("myOrderCount", myOrderCount);
 		model.addAttribute("myCollectionCount", myCollectionCount);
+		model.addAttribute("borrowCount", borrowCount);
 	}
 
 	// 加载当前用户所填写的所有收货地址

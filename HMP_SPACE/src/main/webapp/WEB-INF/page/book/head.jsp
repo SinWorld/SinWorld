@@ -55,9 +55,13 @@
 					<a href="<c:url value='/book/orderCartem'/>"><i
 						class="layui-icon layui-icon-file" title="我的订单"><em class="u_num">${myOrderCount}</em></i></a>
 				</div>
-				<div class="sp-cart">
+				<div class="sp-cart" style="margin-right: 22px;">
 					<a href="<c:url value='/book/myCollection'/>"><i
 						class="layui-icon layui-icon-star-fill " title="我的收藏"><em class="u_num">${myCollectionCount}</em></i></a>
+				</div>
+				<div class="sp-cart">
+					<a href="<c:url value='/borrow/myBorrow'/>"><i
+						class="layui-icon layui-icon-file-b " title="我的租借"><em class="u_num">${borrowCount}</em></i></a>
 				</div>
 			</div>
 		</div>
