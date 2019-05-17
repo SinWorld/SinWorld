@@ -92,7 +92,7 @@ public class BorrowController {
 		for(int i=0;i<count;i++) {
 			//new出租借明细对象
 			HMP_Borrow_Detail borrowDetail=new HMP_Borrow_Detail();
-			//为其属性赋值
+			 //为其属性赋值
 			borrowDetail.setBook_id(bookId);
 			borrowDetail.setIs_return(false);
 			borrowDetail.setBorrow_time(nowTime);
