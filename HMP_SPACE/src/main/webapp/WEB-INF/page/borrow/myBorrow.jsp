@@ -154,59 +154,102 @@
     }
 });
   
- 	//归还
- 	$('ul li').find("span[class='dele-btn']").click(function(){
- 		//获得当前行索引
- 	  var index=$('ul li').find("span[class='dele-btn']").index(this);
- 		//获得当前归还数量
- 	  var count=$('ul li').find("input[id='count']")[index].value;
- 		//获得当前行所有主键值
-      var ids=$('input[name="ids"]')[index].value;
-      ids=ids.substring(1,ids.length-1);
-	  layer.confirm('您确定要归还该书籍吗？', {
-		  btn: ['确定','取消'], //按钮
-		  title:'提示'},function(index){
-		 //ajax进行归还
-			$.ajax({
-				url : "<c:url value='/borrow/giveBooks'/>",
-				type : "post",
-				dataType : 'json',
-				async : false,
-				data : {
-					"count" : count,
-					"ids" : ids
-				},
-				error : function() {
-					alert("出错");
-				},
-				success : function(data) {
-					if(data.flag=='success'){
-						//layer.alert('成功',{icon: 6});
-						//layer.msg('已归还',{icon: 1}); 
-						location.reload();
-						//layer.msg('已移除',{icon: 2}); 
-					}
-				}
-			});
-			 
-		  }
-	  );
+//归还
+	$('ul li').find("span[class='dele-btn']").click(function(){
+		//获得当前行索引
+	  var index=$('ul li').find("span[class='dele-btn']").index(this);
+		//获得当前归还数量
+	  var count=$('ul li').find("input[id='count']")[index].value;
+		//获得当前行所有主键值
+    var ids=$('input[name="ids"]')[index].value;
+    ids=ids.substring(1,ids.length-1);
+  	//得到当前商品的复选框
+	  var checbox=$('input[name="select-all"]')[index];
+    var flag=checbox.checked;
+    if(flag){
+  		  layer.confirm('您确定要归还该书籍吗？', {
+  			  btn: ['确定','取消'], //按钮
+  			  title:'提示'},function(index){
+  			 //ajax进行归还
+  				$.ajax({
+  					url : "<c:url value='/borrow/giveBooks'/>",
+  					type : "post",
+  					dataType : 'json',
+  					async : false,
+  					data : {
+  						"count" : count,
+  						"ids" : ids
+  					},
+  					error : function() {
+  						alert("出错");
+  					},
+  					success : function(data) {
+  						if(data.flag=='success'){
+  							//layer.alert('成功',{icon: 6});
+  							//layer.msg('已归还',{icon: 1}); 
+  							location.reload();
+  							//layer.msg('已移除',{icon: 2}); 
+  						}
+  					}
+  				});
+  				 
+  			  }
+  		  );
+  	}else{
+  		 layer.alert('请勾选需要选中的书籍');
+  	}
+	
 	});
   
-//数量减少
+	//数量减少
 	$('ul li').find("div[class='less layui-btn']").click(function(){
 		//获取当前点击行索引
 		var index=$('ul li').find("div[class='less layui-btn']").index(this);
 		//获取当前行数量值
 		var count=$('ul li').find("input[id='count']")[index].value;
-		//若数量减至1则不可再减少
-		if(count==1){
-			return;
+		//得到当前商品的复选框
+		var checbox=$('input[name="select-all"]')[index];
+		//得到所有的复选框
+		var checboxs=$('input[name="select-all"]');
+		//获取所有数量
+		var counts=$('ul li').find("input[id='count']");
+		//判断是否处于选中状态
+		var flag=checbox.checked;
+		//设置总数量
+		var totalCount=0*1;
+		if(flag){
+			//若数量减至1则不可再减少
+			if(count==1){
+				//遍历所有的复选框并判断是否处于选中状态
+				for(var i=0;i<checboxs.length;i++){
+					//判断是否处于选中状态
+					if(checboxs[i].checked){
+						totalCount+=counts[i].value*1;
+						//设置总数量
+						$('#totalCount').text(totalCount);
+					}
+				}
+				return;
+			}else{
+				//自减
+				count--;
+				//赋值
+				$('ul li').find("input[id='count']")[index].value=count;
+				//遍历所有的复选框并判断是否处于选中状态
+				for(var i=0;i<checboxs.length;i++){
+					//判断是否处于选中状态
+					if(checboxs[i].checked){
+						totalCount+=counts[i].value*1;
+						//设置总数量
+						$('#totalCount').text(totalCount);
+					}
+				}
+			}
+		}else{
+			//没选中  给出提示
+			  layer.alert('请勾选需要选中的书籍');
+			  return;
 		}
-		//自减
-		count--;
-		//赋值
-		$('ul li').find("input[id='count']")[index].value=count;
 	});
 	
   //复选框选中
@@ -266,6 +309,8 @@
 	  var delBorrows=$('#delBookId');
 	  //获取表单
 	  var form=document.getElementById('form');
+	  //获取总数量
+	  var count=$('#totalCount').text();
 	  //遍历该集合复选框
 	  for(var i=0;i<checboxs.length;i++){
 		  //判断该复选框是否被选中
@@ -301,6 +346,7 @@
 					async : false,
 					data : {
 						"delBorrow" : delBorrow,
+						"count" : count
 					},
 					error : function() {
 						alert("出错");

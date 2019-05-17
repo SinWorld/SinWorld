@@ -144,7 +144,6 @@ public class BorrowController {
 				//myBorrow.setReality_return_time(formatter.format(borrowDetail.getReality_return_time()));
 				myBorrow.setIs_return(borrowDetail.getIs_return());
 				myBorrow.setUser_id(borrowDetail.getUser_id());
-				myBorrow.setIds(borrowDetail.getFborrow_detail_id());
 				kg=true;
 			}
 			myBorrows.add(myBorrow);
@@ -169,28 +168,10 @@ public class BorrowController {
 		 //将字符串  appoint_return_time转换为Date类型
 		String time=formatter.format(nowTime);
 		String id[]=ids.split(",");
-		//new出set集合用于存储不重复的主键
-		Set<String> set=new HashSet<String>();
 		Integer fborrow_detail_id=null;
-		//new 出集合用于存储未归还的数据主键
-		List<Integer>borrowIds=new ArrayList<Integer>();
-		//遍历id数组
-		for (String borrowId : id) {
-			//将id添加进set集合中
-			set.add(borrowId.trim());
-		}
-		//遍历set集合
-		for (String  borrowId: set) {
-			//根据id查询对象
-			HMP_Borrow_Detail detail = borrowService.queryDetailById(Integer.parseInt(borrowId.trim()));
-			//如果未还 且 实际归还时间为空
-			if(detail.getIs_return()==false&&detail.getReality_return_time()==null) {
-				borrowIds.add(detail.getFborrow_detail_id());
-			}
-		}
 		for(int i=0;i<count;i++) {
 			//跟新时间
-			fborrow_detail_id=borrowIds.get(i);
+			fborrow_detail_id=Integer.parseInt(id[i].trim());
 			borrowService.editBorrow(fborrow_detail_id,time);
 		}
 		JSONObject jsonObject=new JSONObject();
@@ -202,8 +183,7 @@ public class BorrowController {
 	//批量归还书籍
 	@RequestMapping(value="/batchReturn" ,produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String batchReturn(@RequestParam String delBorrow) {
-		//TODO 该功能存在选择数量时会有bug
+	public String batchReturn(@RequestParam String delBorrow, Integer count) {
 		//设置归还时间
 		Date nowTime=new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -211,7 +191,7 @@ public class BorrowController {
 		String time=formatter.format(nowTime);
 		String id[]=delBorrow.split(",");
 		Integer fborrow_detail_id=null;
-		for(int i=0;i<id.length;i++) {
+		for(int i=0;i<count;i++) {
 			//跟新时间
 			fborrow_detail_id=Integer.parseInt(id[i].trim());
 			borrowService.editBorrow(fborrow_detail_id,time);
